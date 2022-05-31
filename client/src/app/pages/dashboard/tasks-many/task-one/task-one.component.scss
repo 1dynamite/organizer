@@ -1,0 +1,42 @@
+@use "@angular/material" as mat;
+@use "/src/theme.constants.scss" as theme;
+
+.root {
+  display: flex;
+  gap: 1rem;
+  min-height: 4rem;
+  background-color: theme.$light-bg-color;
+  border-radius: theme.$border-radius;
+  padding: 0.5rem 1rem;
+  border: 1px solid theme.$grey-bg-color;
+  cursor: pointer;
+  transition: theme.$transition;
+}
+
+.root:hover {
+  background-color: theme.$grey-bg-color;
+}
+
+.status {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0.5rem 1rem;
+}
+
+.title {
+  flex-grow: 1;
+  display: flex;
+  align-items: center;
+  padding: 1rem 0.3rem;
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+}
+
+h3 {
+  margin: 0;
+}

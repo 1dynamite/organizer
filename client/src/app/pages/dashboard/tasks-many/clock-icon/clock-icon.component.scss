@@ -1,0 +1,17 @@
+@use "@angular/material" as mat;
+@use "/src/theme.constants.scss" as theme;
+
+%circle-icon {
+  height: 2rem;
+  width: 2rem;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+}
+
+.clock-icon {
+  @extend %circle-icon;
+  background-color: theme.$palette-attend;
+}

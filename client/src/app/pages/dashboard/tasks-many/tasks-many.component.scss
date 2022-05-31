@@ -1,13 +1,26 @@
-.table {
-  width: 100%;
-}
+@use "@angular/material" as mat;
+@use "/src/theme.constants.scss" as theme;
 
-.table-root {
-  overflow: auto;
-}
+$primary-400: mat.get-color-from-palette(theme.$palette-primary, 400);
+$secondary-lighter: mat.get-color-from-palette(
+  theme.$palette-secondary,
+  "lighter"
+);
 
-.root {
+.tasks-section {
   display: flex;
   flex-direction: column;
-  height: 100vh;
+  gap: 2rem;
+  height: 560px;
+  width: 900px;
+  padding: 1rem;
+  background-color: white;
+  border-radius: theme.$border-radius;
+  border: 1px solid theme.$grey-bg-color;
+}
+
+.tasks {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
 }

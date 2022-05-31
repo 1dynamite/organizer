@@ -1,33 +1,12 @@
-<div class="root">
-  <app-controls (addTaskEvent)="onAddTask($event)"></app-controls>
-  <div class="table-root">
-    <table mat-table [dataSource]="dataSource" class="mat-elevation-z8 table">
-      <ng-container matColumnDef="created">
-        <th mat-header-cell *matHeaderCellDef>Created</th>
-        <td mat-cell *matCellDef="let element">
-          {{ element.created | date: "medium" }}
-        </td>
-      </ng-container>
-
-      <ng-container matColumnDef="category">
-        <th mat-header-cell *matHeaderCellDef>Category</th>
-        <td mat-cell *matCellDef="let element">{{ element.category }}</td>
-      </ng-container>
-
-      <ng-container matColumnDef="status">
-        <th mat-header-cell *matHeaderCellDef>Status</th>
-        <td mat-cell *matCellDef="let element">{{ element.status }}</td>
-      </ng-container>
-
-      <ng-container matColumnDef="updated">
-        <th mat-header-cell *matHeaderCellDef>Updated</th>
-        <td mat-cell *matCellDef="let element">
-          {{ element.updated | date: "medium" }}
-        </td>
-      </ng-container>
-
-      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-      <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
-    </table>
+<div class="tasks-section">
+  <app-controls (addTaskEvent)="addTask($event)"></app-controls>
+  <div class="tasks">
+    <app-task-one
+      *ngFor="let task of tasksMany; let i = index"
+      [taskOne]="tasksMany[tasksMany.length - 1 - i]"
+      [index]="tasksMany.length - 1 - i"
+      (deleteEvent)="deleteTask($event)"
+      (editEvent)="editTask($event)"
+    ></app-task-one>
   </div>
 </div>

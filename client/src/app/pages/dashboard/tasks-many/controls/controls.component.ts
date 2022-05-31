@@ -1,5 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { Task } from '../tasks-many.component';
+import { MatDialog } from '@angular/material/dialog';
+import { AddTaskComponent } from '../dialogs/add-task/add-task.component';
+import Task from '../task-one/task.model';
 
 @Component({
   selector: 'app-controls',
@@ -9,16 +11,15 @@ import { Task } from '../tasks-many.component';
 export class ControlsComponent implements OnInit {
   @Output() addTaskEvent = new EventEmitter<Task>();
 
-  constructor() {}
-
-  onAddTask() {
-    this.addTaskEvent.emit({
-      created: new Date(),
-      category: 'Work',
-      status: 'In progress',
-      updated: new Date(),
-    });
-  }
+  constructor(public dialog: MatDialog) {}
 
   ngOnInit(): void {}
+
+  openAddTaskDialog() {
+    const dialogRef = this.dialog.open(AddTaskComponent);
+
+    dialogRef.afterClosed().subscribe((result: Task) => {
+      this.addTaskEvent.emit(result);
+    });
+  }
 }

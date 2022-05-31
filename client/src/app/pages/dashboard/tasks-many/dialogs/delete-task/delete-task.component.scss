@@ -1,0 +1,17 @@
+@use "@angular/material" as mat;
+@use "/src/theme.constants.scss" as theme;
+
+.title {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 1rem;
+}
+
+.title-text {
+  flex-grow: 1;
+}
+
+.actions {
+  display: flex;
+  justify-content: flex-end;
+}
