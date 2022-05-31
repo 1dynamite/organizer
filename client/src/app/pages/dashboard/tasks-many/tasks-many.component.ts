@@ -1,23 +1,62 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { MatTable } from '@angular/material/table';
 
-export interface PeriodicElement {
-  name: string;
-  position: number;
-  weight: number;
-  symbol: string;
+export interface Task {
+  category: string;
+  created: Date;
+  status: 'Completed' | 'In progress' | 'Failed';
+  updated: Date;
 }
 
-const ELEMENT_DATA: PeriodicElement[] = [
-  { position: 1, name: 'Hydrogen', weight: 1.0079, symbol: 'H' },
-  { position: 2, name: 'Helium', weight: 4.0026, symbol: 'He' },
-  { position: 3, name: 'Lithium', weight: 6.941, symbol: 'Li' },
-  { position: 4, name: 'Beryllium', weight: 9.0122, symbol: 'Be' },
-  { position: 5, name: 'Boron', weight: 10.811, symbol: 'B' },
-  { position: 6, name: 'Carbon', weight: 12.0107, symbol: 'C' },
-  { position: 7, name: 'Nitrogen', weight: 14.0067, symbol: 'N' },
-  { position: 8, name: 'Oxygen', weight: 15.9994, symbol: 'O' },
-  { position: 9, name: 'Fluorine', weight: 18.9984, symbol: 'F' },
-  { position: 10, name: 'Neon', weight: 20.1797, symbol: 'Ne' },
+const ELEMENT_DATA: Task[] = [
+  {
+    created: new Date(2022, 5, 11),
+    category: 'Work',
+    status: 'Completed',
+    updated: new Date(2022, 5, 11),
+  },
+  {
+    created: new Date(2022, 5, 12),
+    category: 'House chores',
+    status: 'Completed',
+    updated: new Date(2022, 5, 12),
+  },
+  {
+    created: new Date(2022, 5, 13),
+    category: 'Family',
+    status: 'Completed',
+    updated: new Date(2022, 5, 13),
+  },
+  {
+    created: new Date(2022, 5, 14),
+    category: 'Entertainment',
+    status: 'Failed',
+    updated: new Date(2022, 5, 14),
+  },
+  {
+    created: new Date(2022, 5, 16),
+    category: 'Work',
+    status: 'Completed',
+    updated: new Date(2022, 5, 16),
+  },
+  {
+    created: new Date(2022, 5, 21),
+    category: 'Family',
+    status: 'Failed',
+    updated: new Date(2022, 5, 23),
+  },
+  {
+    created: new Date(2022, 5, 22),
+    category: 'Work',
+    status: 'Completed',
+    updated: new Date(2022, 5, 22),
+  },
+  {
+    created: new Date(2022, 5, 29),
+    category: 'Work',
+    status: 'In progress',
+    updated: new Date(2022, 5, 29),
+  },
 ];
 
 @Component({
@@ -26,10 +65,18 @@ const ELEMENT_DATA: PeriodicElement[] = [
   styleUrls: ['./tasks-many.component.scss'],
 })
 export class TasksManyComponent implements OnInit {
-  displayedColumns: string[] = ['position', 'name', 'weight', 'symbol'];
+  displayedColumns: string[] = ['created', 'category', 'status', 'updated'];
   dataSource = ELEMENT_DATA;
 
   constructor() {}
+
+  @ViewChild(MatTable) table!: MatTable<Task>;
+
+  onAddTask(data: Task) {
+    console.log('Hello');
+    this.dataSource.push(data);
+    this.table.renderRows();
+  }
 
   ngOnInit(): void {}
 }
