@@ -1,0 +1,15 @@
+<app-task-one>
+  <app-status-check-box
+    class="status"
+    [checked]="checked"
+  ></app-status-check-box>
+  <app-task-one-title class="title">{{ taskOne.title }}</app-task-one-title>
+  <app-task-one-actions class="actions">
+    <button mat-icon-button class="icon-button" (click)="onEditClick()">
+      <mat-icon>edit</mat-icon>
+    </button>
+    <button mat-icon-button class="icon-button" (click)="onDeleteClick()">
+      <mat-icon>delete</mat-icon>
+    </button>
+  </app-task-one-actions>
+</app-task-one>

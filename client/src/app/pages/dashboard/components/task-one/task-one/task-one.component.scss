@@ -1,0 +1,18 @@
+@use "@angular/material" as mat;
+@use "/src/theme.constants.scss" as theme;
+
+.root {
+  display: flex;
+  gap: 1rem;
+  min-height: 4rem;
+  background-color: theme.$light-bg-color;
+  border-radius: theme.$border-radius;
+  padding: 0.5rem 1rem;
+  border: 1px solid theme.$grey-bg-color;
+  cursor: pointer;
+  transition: theme.$transition;
+}
+
+.root:hover {
+  background-color: theme.$grey-bg-color;
+}
