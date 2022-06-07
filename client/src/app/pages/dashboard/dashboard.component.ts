@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { BehaviorSubject, Observable, Subject } from 'rxjs';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { BehaviorSubject, Observable, Subject, Subscription } from 'rxjs';
 import { AddTask, EditTask, Task } from './models/models.tasks';
 import { TasksService } from './services/tasks.service';
 import { cloneDeep } from 'lodash';
@@ -10,14 +10,16 @@ import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss'],
 })
-export class DashboardComponent implements OnInit {
+export class DashboardComponent implements OnInit, OnDestroy {
   tasksMany = new BehaviorSubject<Task[] | null>(null);
 
   tasksCompleted: Task[] = [];
   tasksInProgress: Task[] = [];
 
+  subscriptionTasksMany: Subscription;
+
   constructor(public tasksService: TasksService) {
-    this.tasksMany.subscribe((e) => {
+    this.subscriptionTasksMany = this.tasksMany.subscribe((e) => {
       if (e === null) return;
 
       this.tasksCompleted = e.filter(
@@ -32,6 +34,10 @@ export class DashboardComponent implements OnInit {
 
       this.tasksInProgress.sort((a, b) => b.status.index - a.status.index);
     });
+  }
+
+  ngOnDestroy(): void {
+    this.subscriptionTasksMany.unsubscribe();
   }
 
   ngOnInit(): void {
