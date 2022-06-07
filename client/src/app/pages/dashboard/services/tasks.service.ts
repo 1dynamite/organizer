@@ -5,6 +5,7 @@ import { AddTask, EditTask, Status, Task } from '../models/models.tasks';
   providedIn: 'root',
 })
 export class TasksService {
+  #dragDropCounter = 0;
   #currentIDNumber = 5;
   #tasksMany: Task[] = [
     {
@@ -48,6 +49,10 @@ export class TasksService {
 
   #getUniqueID() {
     return ++this.#currentIDNumber + '';
+  }
+
+  #getUniqueOrdering() {
+    return this.#dragDropCounter++;
   }
 
   getTasksByStatus(status: Status) {
