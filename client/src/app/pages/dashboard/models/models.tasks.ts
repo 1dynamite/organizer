@@ -1,9 +1,9 @@
-type Status = 'in-progress' | 'completed';
+type StatusValue = 'in-progress' | 'completed';
 
 interface Task {
   _id: string;
   title: string;
-  status: Status;
+  status: { value: StatusValue; index: number };
   created: Date;
   completed: Date | null;
 }
@@ -16,4 +16,4 @@ interface EditTask {
   title: string;
 }
 
-export { Task, AddTask, EditTask, Status };
+export { Task, AddTask, EditTask, StatusValue };

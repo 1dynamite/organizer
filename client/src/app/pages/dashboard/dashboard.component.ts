@@ -21,16 +21,16 @@ export class DashboardComponent implements OnInit {
       if (e === null) return;
 
       this.tasksCompleted = e.filter(
-        (element) => element.status === 'completed'
+        (element) => element.status.value === 'completed'
       );
 
-      this.tasksCompleted.sort(
-        (a, b) => b.completed!.getTime() - a.completed!.getTime()
-      );
+      this.tasksCompleted.sort((a, b) => b.status.index - a.status.index);
 
       this.tasksInProgress = e.filter(
-        (element) => element.status === 'in-progress'
+        (element) => element.status.value === 'in-progress'
       );
+
+      this.tasksInProgress.sort((a, b) => b.status.index - a.status.index);
     });
   }
 
@@ -90,7 +90,9 @@ export class DashboardComponent implements OnInit {
   }
 
   completeTaskEvent(_id: string) {
-    this.tasksService.completeTask(_id);
+    const res = this.tasksService.completeTask(_id);
+
+    if (res === null) return;
 
     const currentValue = this.tasksMany.value;
 
@@ -100,13 +102,23 @@ export class DashboardComponent implements OnInit {
 
     if (myElement === undefined) return;
 
-    myElement.status = 'completed';
+    myElement.status = { value: 'completed', index: res.index };
     myElement.completed = new Date();
 
     this.tasksMany.next([...currentValue]);
   }
 
   drop(event: CdkDragDrop<Task[]>) {
+    const preIndex = event.previousIndex;
+    const curIndex = event.currentIndex;
+
+    const statusIndexPre = this.tasksInProgress[preIndex].status.index;
+
+    this.tasksInProgress[preIndex].status.index =
+      this.tasksInProgress[curIndex].status.index;
+
+    this.tasksInProgress[curIndex].status.index = statusIndexPre;
+
     moveItemInArray(
       this.tasksInProgress,
       event.previousIndex,
@@ -115,6 +127,16 @@ export class DashboardComponent implements OnInit {
   }
 
   dropCompleted(event: CdkDragDrop<Task[]>) {
+    const preIndex = event.previousIndex;
+    const curIndex = event.currentIndex;
+
+    const statusIndexPre = this.tasksCompleted[preIndex].status.index;
+
+    this.tasksCompleted[preIndex].status.index =
+      this.tasksCompleted[curIndex].status.index;
+
+    this.tasksCompleted[curIndex].status.index = statusIndexPre;
+
     moveItemInArray(
       this.tasksCompleted,
       event.previousIndex,

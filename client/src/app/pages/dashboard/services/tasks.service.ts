@@ -1,45 +1,47 @@
 import { Injectable } from '@angular/core';
-import { AddTask, EditTask, Status, Task } from '../models/models.tasks';
+import { AddTask, EditTask, StatusValue, Task } from '../models/models.tasks';
 
 @Injectable({
   providedIn: 'root',
 })
 export class TasksService {
-  #dragDropCounter = 0;
   #currentIDNumber = 5;
+  #indexCompleted = 0;
+  #indexInProgress = 0;
+
   #tasksMany: Task[] = [
     {
       _id: '1',
       title: "Read 'War and Peace'",
-      status: 'in-progress',
+      status: { value: 'in-progress', index: this.#getIndexInProgress() },
       created: new Date(),
       completed: null,
     },
     {
       _id: '2',
       title: 'Go to the gym',
-      status: 'in-progress',
+      status: { value: 'in-progress', index: this.#getIndexInProgress() },
       created: new Date(),
       completed: null,
     },
     {
       _id: '3',
       title: 'Burger',
-      status: 'completed',
+      status: { value: 'in-progress', index: this.#getIndexInProgress() },
       created: new Date(),
       completed: new Date(),
     },
     {
       _id: '4',
       title: 'Piano',
-      status: 'in-progress',
+      status: { value: 'in-progress', index: this.#getIndexInProgress() },
       created: new Date(),
       completed: null,
     },
     {
       _id: '5',
       title: 'Pay the bills',
-      status: 'completed',
+      status: { value: 'completed', index: this.#getIndexCompleted() },
       created: new Date(),
       completed: new Date(),
     },
@@ -51,26 +53,32 @@ export class TasksService {
     return ++this.#currentIDNumber + '';
   }
 
-  #getUniqueOrdering() {
-    return this.#dragDropCounter++;
+  #getIndexCompleted() {
+    return this.#indexCompleted++;
   }
 
-  getTasksByStatus(status: Status) {
-    return this.#tasksMany.filter((element) => element.status === status);
+  #getIndexInProgress() {
+    return this.#indexInProgress++;
+  }
+
+  getTasksByStatus(statusValue: StatusValue) {
+    return this.#tasksMany.filter(
+      (element) => element.status.value === statusValue
+    );
   }
 
   addTask(myData: AddTask) {
     const myNewTask: Task = {
       ...myData,
       _id: this.#getUniqueID(),
-      status: 'in-progress',
+      status: { value: 'in-progress', index: this.#getIndexInProgress() },
       created: new Date(),
       completed: null,
     };
 
     this.#tasksMany.push(myNewTask);
 
-    this.#tasksMany.sort((a, b) => b.created.getTime() - a.created.getTime());
+    this.#tasksMany.sort((a, b) => b.status.index - a.status.index);
 
     return myNewTask;
   }
@@ -102,9 +110,13 @@ export class TasksService {
 
     if (element === undefined) return null;
 
-    element.status = 'completed';
+    element.status = { value: 'completed', index: this.#getIndexCompleted() };
     element.completed = new Date();
 
-    return element;
+    const res = {
+      index: element.status.index,
+    };
+
+    return res;
   }
 }
