@@ -15,7 +15,7 @@ export class DeleteTaskComponent implements OnInit {
     this.dialogRef.close(false);
   }
 
-  onClickYes() {
+  onClickDelete() {
     this.dialogRef.close(true);
   }
 }

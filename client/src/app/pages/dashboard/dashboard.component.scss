@@ -23,17 +23,17 @@
   border: 1px solid theme.$grey-bg-color;
 }
 
-.tasks-many {
+.tasks-list {
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
   overflow: auto;
 }
 
-.tasks-many:last-child {
+.tasks-list:last-child {
   border: none;
 }
 
-.tasks-many.cdk-drop-list-dragging .task-box:not(.cdk-drag-placeholder) {
+.tasks-list.cdk-drop-list-dragging .task-box:not(.cdk-drag-placeholder) {
   transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
 }

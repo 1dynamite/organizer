@@ -8,7 +8,7 @@ import { FormsModule } from 'src/app/shared/forms/forms.module';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { ControlsInProgressComponent } from './components/controls-in-progress/controls-in-progress.component';
 import { ControlsCompletedComponent } from './components/controls-completed/controls-completed.component';
-import { TaskOneModule } from './components/task-one/task-one.module';
+import { TaskItemModule } from './components/task-item/task-item.module';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 
 @NgModule({
@@ -24,7 +24,7 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
     MatDialogModule,
     FormsModule,
     MatCheckboxModule,
-    TaskOneModule,
+    TaskItemModule,
     DragDropModule,
   ],
   exports: [DashboardComponent],

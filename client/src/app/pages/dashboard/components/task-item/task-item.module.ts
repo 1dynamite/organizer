@@ -1,8 +1,8 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatRippleModule } from '@angular/material/core';
-import { TaskOneInProgressComponent } from './task-one-in-progress/task-one-in-progress.component';
-import { TaskOneCompletedComponent } from './task-one-completed/task-one-completed.component';
+import { TaskItemInProgressComponent } from './task-item-in-progress/task-item-in-progress.component';
+import { TaskItemCompletedComponent } from './task-item-completed/task-item-completed.component';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatDialogModule } from '@angular/material/dialog';
@@ -10,7 +10,7 @@ import { FormsModule } from 'src/app/shared/forms/forms.module';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 
 @NgModule({
-  declarations: [TaskOneInProgressComponent, TaskOneCompletedComponent],
+  declarations: [TaskItemInProgressComponent, TaskItemCompletedComponent],
   imports: [
     CommonModule,
     MatRippleModule,
@@ -20,6 +20,6 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
     FormsModule,
     MatCheckboxModule,
   ],
-  exports: [TaskOneInProgressComponent, TaskOneCompletedComponent],
+  exports: [TaskItemInProgressComponent, TaskItemCompletedComponent],
 })
-export class TaskOneModule {}
+export class TaskItemModule {}

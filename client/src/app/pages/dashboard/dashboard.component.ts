@@ -11,7 +11,7 @@ import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
   styleUrls: ['./dashboard.component.scss'],
 })
 export class DashboardComponent implements OnInit, OnDestroy {
-  tasksMany = new BehaviorSubject<Task[] | null>(null);
+  tasksList = new BehaviorSubject<Task[] | null>(null);
 
   tasksCompleted: Task[] = [];
   tasksInProgress: Task[] = [];
@@ -19,7 +19,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   subscriptionTasksMany: Subscription;
 
   constructor(public tasksService: TasksService) {
-    this.subscriptionTasksMany = this.tasksMany.subscribe((e) => {
+    this.subscriptionTasksMany = this.tasksList.subscribe((e) => {
       if (e === null) return;
 
       this.tasksCompleted = e.filter(
@@ -46,53 +46,53 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
     const cloned = cloneDeep(a.concat(b));
 
-    this.tasksMany.next(cloned);
+    this.tasksList.next(cloned);
   }
 
   addTaskEvent(myData: AddTask) {
     const newTask = this.tasksService.addTask(myData);
 
-    const oldValue = this.tasksMany.value;
+    const oldValue = this.tasksList.value;
 
     if (oldValue === null) return;
 
     const myTasks = [newTask, ...oldValue];
 
-    this.tasksMany.next(myTasks);
+    this.tasksList.next(myTasks);
   }
 
   deleteTaskEvent(_id: string) {
     this.tasksService.deleteTask(_id);
 
-    if (this.tasksMany.value === null) return;
+    if (this.tasksList.value === null) return;
 
-    const myIndex = this.tasksMany.value.findIndex(
+    const myIndex = this.tasksList.value.findIndex(
       (element) => element._id === _id
     );
 
     if (myIndex === -1) return;
 
-    this.tasksMany.value.splice(myIndex, 1);
+    this.tasksList.value.splice(myIndex, 1);
 
-    this.tasksMany.next(this.tasksMany.value);
+    this.tasksList.next(this.tasksList.value);
   }
 
   editTaskEvent(_id: string, myData: EditTask) {
     this.tasksService.editTask(_id, myData);
 
-    if (this.tasksMany.value === null) return;
+    if (this.tasksList.value === null) return;
 
-    const myIndex = this.tasksMany.value.findIndex(
+    const myIndex = this.tasksList.value.findIndex(
       (element) => element._id === _id
     );
 
     if (myIndex === -1) return;
 
-    const element = this.tasksMany.value[myIndex];
+    const element = this.tasksList.value[myIndex];
 
-    this.tasksMany.value[myIndex] = { ...element, ...myData };
+    this.tasksList.value[myIndex] = { ...element, ...myData };
 
-    this.tasksMany.next(this.tasksMany.value);
+    this.tasksList.next(this.tasksList.value);
   }
 
   completeTaskEvent(_id: string) {
@@ -100,7 +100,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
     if (res === null) return;
 
-    const currentValue = this.tasksMany.value;
+    const currentValue = this.tasksList.value;
 
     if (currentValue === null) return;
 
@@ -111,7 +111,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     myElement.status = { value: 'completed', index: res.index };
     myElement.completed = new Date();
 
-    this.tasksMany.next([...currentValue]);
+    this.tasksList.next([...currentValue]);
   }
 
   drop(event: CdkDragDrop<Task[]>) {
