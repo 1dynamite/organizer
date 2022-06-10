@@ -1,5 +1,4 @@
 const mongoose = require("mongoose");
-const StatusSchema = require("./schemas/status");
 
 const TaskSchema = new mongoose.Schema(
   {
@@ -9,11 +8,17 @@ const TaskSchema = new mongoose.Schema(
     },
 
     status: {
-      type: StatusSchema,
-      required: [true, "Status is required"],
+      type: String,
+      enum: {
+        values: ["in-progress", "completed"],
+        message: "'{VALUE}' is not a valid value for status",
+      },
+      default: "in-progress",
     },
 
     completed: Date,
+
+    priorityIndex: Number,
   },
   {
     timestamps: true,

@@ -1,16 +1,15 @@
 const express = require("express");
 const controller = require("../controllers/tasks.controller");
+const validators = require("../validators/tasks.validator");
 
 const router = express.Router();
 
-router.get("/", controller.readMany);
+router.get("/", controller.readTasks);
 
-router.post("/", controller.createOne);
+router.post("/", controller.createTask);
 
-router.put("/:taskId", controller.updateOne);
+router.patch("/:taskId", validators.validateTask, controller.updateTask);
 
-router.delete("/:taskId", controller.deleteOne);
-
-router.param("taskId", controller.readById);
+router.delete("/:taskId", controller.deleteTask);
 
 module.exports = router;

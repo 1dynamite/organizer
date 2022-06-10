@@ -1,69 +1,64 @@
 const Tasks = require("../models/tasks.model");
 const _myCounter = require("../services/_counter.service");
+const createError = require("http-errors");
 
-const readMany = async (req, res, next) => {
+const readTasks = async (req, res, next) => {
   try {
     const tasksMany = await Tasks.find({});
 
-    res.json(tasksMany);
+    res.status(200).json(tasksMany);
   } catch (error) {
-    res.json(error);
+    next(error);
   }
 };
 
-const createOne = async (req, res) => {
+const createTask = async (req, res, next) => {
   try {
     const myIndex = await _myCounter.getIndex();
 
-    req.body.status = { value: "in-progress", index: myIndex };
+    req.body.priorityIndex = myIndex;
 
     const newTask = await Tasks.create(req.body);
 
-    res.json(newTask);
+    res.status(201).json(newTask);
   } catch (error) {
-    res.json(error);
+    next(error);
   }
 };
 
-const updateOne = async (req, res) => {
+const updateTask = async (req, res, next) => {
   try {
-    if (req.body.status) {
-      const myIndex = await _myCounter.getIndex();
-      req.body.status.index = myIndex;
-    }
+    const task = await Tasks.findOneAndUpdate(
+      { _id: req.params.taskId },
+      req.body,
+      {
+        new: true,
+      }
+    );
 
-    const result = await req.myTask.updateOne(req.body);
+    if (!task) throw createError(404, "Task not found");
 
-    res.json(result);
+    res.status(200).json(task);
   } catch (error) {
-    res.json(error);
+    next(error);
   }
 };
 
-const deleteOne = async (req, res) => {
+const deleteTask = async (req, res, next) => {
   try {
-    const object = await Tasks.deleteOne({ _id: req.myTask._id });
+    const task = await Tasks.findByIdAndDelete(req.params.taskId);
 
-    res.json(object.acknowledged);
+    if (!task) throw createError(404, "Task not found");
+
+    res.status(200).json({ _id: task._id });
   } catch (error) {
-    res.json(error);
-  }
-};
-
-const readById = async (req, res, next, taskId) => {
-  try {
-    req.myTask = await Tasks.findById(taskId);
-
-    next();
-  } catch (error) {
-    res.json(error);
+    next(error);
   }
 };
 
 module.exports = {
-  readMany,
-  createOne,
-  updateOne,
-  deleteOne,
-  readById,
+  readTasks,
+  createTask,
+  updateTask,
+  deleteTask,
 };
