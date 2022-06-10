@@ -1,35 +1,33 @@
 <div class="dashboard">
   <div class="tasks-section">
-    <app-controls-in-progress
+    <app-tasks-panel
+      [completed]="false"
       (addTaskEvent)="addTaskEvent($event)"
-    ></app-controls-in-progress>
+    ></app-tasks-panel>
     <div class="tasks-list" cdkDropList (cdkDropListDropped)="drop($event)">
-      <app-task-item-in-progress
+      <app-task-item
         class="task-box"
         *ngFor="let task of tasksInProgress"
+        [completed]="false"
         [taskItem]="task"
         cdkDrag
         (completeTaskEvent)="completeTaskEvent(task._id)"
         (editTaskEvent)="editTaskEvent(task._id, $event)"
         (deleteTaskEvent)="deleteTaskEvent(task._id)"
-      ></app-task-item-in-progress>
+      ></app-task-item>
     </div>
   </div>
   <div class="tasks-section">
-    <app-controls-completed></app-controls-completed>
-    <div
-      class="tasks-list"
-      cdkDropList
-      (cdkDropListDropped)="dropCompleted($event)"
-    >
-      <app-task-item-completed
+    <app-tasks-panel [completed]="true"></app-tasks-panel>
+    <div class="tasks-list">
+      <app-task-item
         class="task-box"
         *ngFor="let task of tasksCompleted"
+        [completed]="true"
         [taskItem]="task"
-        cdkDrag
         (editTaskEvent)="editTaskEvent(task._id, $event)"
         (deleteTaskEvent)="deleteTaskEvent(task._id)"
-      ></app-task-item-completed>
+      ></app-task-item>
     </div>
   </div>
 </div>

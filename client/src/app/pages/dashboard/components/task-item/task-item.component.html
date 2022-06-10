@@ -1,4 +1,7 @@
 <div class="root">
+  <div *ngIf="!completed" class="status">
+    <mat-checkbox class="check-box" [formControl]="checked"> </mat-checkbox>
+  </div>
   <div class="title">
     <h3>{{ taskItem.title }}</h3>
   </div>

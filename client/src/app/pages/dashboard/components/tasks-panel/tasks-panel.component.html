@@ -1,0 +1,18 @@
+<div class="root">
+  <div class="left">
+    <h2 *ngIf="!completed">My Tasks</h2>
+    <h2 *ngIf="completed">Completed Tasks</h2>
+  </div>
+  <div class="right">
+    <ng-container *ngIf="!completed">
+      <button mat-raised-button color="primary" (click)="addTask()">
+        Add task
+      </button>
+    </ng-container>
+
+    <ng-container *ngIf="completed">
+      <mat-checkbox class="check-box" [disabled]="true" [checked]="true">
+      </mat-checkbox>
+    </ng-container>
+  </div>
+</div>

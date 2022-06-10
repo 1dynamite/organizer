@@ -6,17 +6,12 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatDialogModule } from '@angular/material/dialog';
 import { FormsModule } from 'src/app/shared/forms/forms.module';
 import { MatCheckboxModule } from '@angular/material/checkbox';
-import { ControlsInProgressComponent } from './components/controls-in-progress/controls-in-progress.component';
-import { ControlsCompletedComponent } from './components/controls-completed/controls-completed.component';
 import { TaskItemModule } from './components/task-item/task-item.module';
 import { DragDropModule } from '@angular/cdk/drag-drop';
+import { TasksPanelComponent } from './components/tasks-panel/tasks-panel.component';
 
 @NgModule({
-  declarations: [
-    DashboardComponent,
-    ControlsInProgressComponent,
-    ControlsCompletedComponent,
-  ],
+  declarations: [DashboardComponent, TasksPanelComponent],
   imports: [
     CommonModule,
     MatButtonModule,

@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ControlsInProgressComponent } from './controls-in-progress.component';
+import { TaskItemComponent } from './task-item.component';
 
-describe('ControlsInProgressComponent', () => {
-  let component: ControlsInProgressComponent;
-  let fixture: ComponentFixture<ControlsInProgressComponent>;
+describe('TaskItemComponent', () => {
+  let component: TaskItemComponent;
+  let fixture: ComponentFixture<TaskItemComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ ControlsInProgressComponent ]
+      declarations: [ TaskItemComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ControlsInProgressComponent);
+    fixture = TestBed.createComponent(TaskItemComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

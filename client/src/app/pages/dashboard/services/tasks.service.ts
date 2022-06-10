@@ -1,122 +1,115 @@
 import { Injectable } from '@angular/core';
-import { AddTask, EditTask, StatusValue, Task } from '../models/models.tasks';
+import { AddTask, EditTask, ErrorType, Task } from '../models/models.tasks';
+import { HttpClient } from '@angular/common/http';
+import { BehaviorSubject, catchError, Observable, tap, throwError } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
 export class TasksService {
-  #currentIDNumber = 5;
-  #indexCompleted = 0;
-  #indexInProgress = 0;
+  tasksList = new BehaviorSubject<Task[] | null>(null);
 
-  #tasksMany: Task[] = [
-    {
-      _id: '1',
-      title: "Read 'War and Peace'",
-      status: { value: 'in-progress', index: this.#getIndexInProgress() },
-      created: new Date(),
-      completed: null,
-    },
-    {
-      _id: '2',
-      title: 'Go to the gym',
-      status: { value: 'in-progress', index: this.#getIndexInProgress() },
-      created: new Date(),
-      completed: null,
-    },
-    {
-      _id: '3',
-      title: 'Burger',
-      status: { value: 'in-progress', index: this.#getIndexInProgress() },
-      created: new Date(),
+  constructor(private httpClient: HttpClient) {}
+
+  readTasksMany(): Observable<Task[]> {
+    return this.httpClient.get<Task[]>('http://localhost:3000/api/tasks');
+  }
+
+  createTask(myData: AddTask): Observable<Task> {
+    return this.httpClient
+      .post<Task>('http://localhost:3000/api/tasks', myData)
+      .pipe(
+        tap((res) => {
+          if (this.tasksList.value === null) return res;
+
+          const myTasks = [res, ...this.tasksList.value];
+
+          this.tasksList.next(myTasks);
+
+          return res;
+        })
+      );
+  }
+
+  deleteTask(_id: string): Observable<{ _id: string }> {
+    return this.httpClient
+      .delete<{ _id: string }>(`http://localhost:3000/api/tasks/${_id}`)
+      .pipe(
+        tap((res) => {
+          if (this.tasksList.value === null) return res;
+
+          const newValue = this.tasksList.value.filter(
+            (element) => element._id !== res._id
+          );
+
+          this.tasksList.next(newValue);
+
+          return res;
+        })
+      );
+  }
+
+  updateTask(_id: string, myData: EditTask): Observable<Task> {
+    return this.httpClient
+      .patch<Task>(`http://localhost:3000/api/tasks/${_id}`, myData)
+      .pipe(
+        tap((res) => {
+          if (this.tasksList.value === null) return res;
+
+          const myIndex = this.tasksList.value.findIndex(
+            (element) => element._id === res._id
+          );
+
+          if (myIndex === -1) return;
+
+          const element = this.tasksList.value[myIndex];
+
+          this.tasksList.value[myIndex] = { ...element, ...myData };
+
+          this.tasksList.next([...this.tasksList.value]);
+
+          return res;
+        })
+      );
+  }
+
+  completeTask(_id: string): Observable<Task> {
+    const myData = {
+      status: 'completed',
       completed: new Date(),
-    },
-    {
-      _id: '4',
-      title: 'Piano',
-      status: { value: 'in-progress', index: this.#getIndexInProgress() },
-      created: new Date(),
-      completed: null,
-    },
-    {
-      _id: '5',
-      title: 'Pay the bills',
-      status: { value: 'completed', index: this.#getIndexCompleted() },
-      created: new Date(),
-      completed: new Date(),
-    },
-  ];
+    };
 
-  constructor() {}
+    return this.httpClient
+      .patch<Task>(`http://localhost:3000/api/tasks/${_id}`, myData)
+      .pipe(
+        tap((res) => {
+          const currentValue = this.tasksList.value;
 
-  #getUniqueID() {
-    return ++this.#currentIDNumber + '';
+          if (currentValue === null) return res;
+
+          const myElement = currentValue.find(
+            (element) => element._id === res._id
+          );
+
+          if (myElement === undefined) return res;
+
+          myElement.status = 'completed';
+          myElement.completed = res.completed;
+
+          this.tasksList.next([...currentValue]);
+
+          return res;
+        })
+      );
   }
 
-  #getIndexCompleted() {
-    return this.#indexCompleted++;
-  }
+  filterSort(myFilter: string): Task[] {
+    if (this.tasksList.value === null) return [];
 
-  #getIndexInProgress() {
-    return this.#indexInProgress++;
-  }
-
-  getTasksByStatus(statusValue: StatusValue) {
-    return this.#tasksMany.filter(
-      (element) => element.status.value === statusValue
+    const filteredTasks = this.tasksList.value.filter(
+      (element) => element.status === myFilter
     );
-  }
 
-  addTask(myData: AddTask) {
-    const myNewTask: Task = {
-      ...myData,
-      _id: this.#getUniqueID(),
-      status: { value: 'in-progress', index: this.#getIndexInProgress() },
-      created: new Date(),
-      completed: null,
-    };
-
-    this.#tasksMany.push(myNewTask);
-
-    this.#tasksMany.sort((a, b) => b.status.index - a.status.index);
-
-    return myNewTask;
-  }
-
-  deleteTask(_id: string) {
-    const myIndex = this.#tasksMany.findIndex((element) => element._id === _id);
-
-    if (myIndex === -1) return null;
-
-    const deletedElement = this.#tasksMany.splice(myIndex, 1)[0];
-
-    return deletedElement;
-  }
-
-  editTask(_id: string, myData: EditTask) {
-    const myIndex = this.#tasksMany.findIndex((element) => element._id === _id);
-
-    if (myIndex === -1) return null;
-
-    const element = this.#tasksMany[myIndex];
-
-    this.#tasksMany[myIndex] = { ...element, ...myData };
-
-    return this.#tasksMany[myIndex];
-  }
-
-  completeTask(_id: string) {
-    const element = this.#tasksMany.find((element) => element._id === _id);
-
-    if (element === undefined) return null;
-
-    element.status = { value: 'completed', index: this.#getIndexCompleted() };
-    element.completed = new Date();
-
-    const res = {
-      index: element.status.index,
-    };
-
-    return res;
+    return filteredTasks.sort((a, b) => b.priorityIndex - a.priorityIndex);
   }
 }

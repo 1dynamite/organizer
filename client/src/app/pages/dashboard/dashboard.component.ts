@@ -1,9 +1,11 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { BehaviorSubject, Observable, Subject, Subscription } from 'rxjs';
+import { Subscription } from 'rxjs';
 import { AddTask, EditTask, Task } from './models/models.tasks';
 import { TasksService } from './services/tasks.service';
-import { cloneDeep } from 'lodash';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
+import { HttpErrorResponse } from '@angular/common/http';
+import { MatSnackBar, MatSnackBarRef } from '@angular/material/snack-bar';
+import { SnackbarComponent } from 'src/app/snackbar/snackbar.component';
 
 @Component({
   selector: 'app-dashboard',
@@ -11,28 +13,18 @@ import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
   styleUrls: ['./dashboard.component.scss'],
 })
 export class DashboardComponent implements OnInit, OnDestroy {
-  tasksList = new BehaviorSubject<Task[] | null>(null);
-
   tasksCompleted: Task[] = [];
   tasksInProgress: Task[] = [];
 
   subscriptionTasksMany: Subscription;
 
-  constructor(public tasksService: TasksService) {
-    this.subscriptionTasksMany = this.tasksList.subscribe((e) => {
-      if (e === null) return;
-
-      this.tasksCompleted = e.filter(
-        (element) => element.status.value === 'completed'
-      );
-
-      this.tasksCompleted.sort((a, b) => b.status.index - a.status.index);
-
-      this.tasksInProgress = e.filter(
-        (element) => element.status.value === 'in-progress'
-      );
-
-      this.tasksInProgress.sort((a, b) => b.status.index - a.status.index);
+  constructor(
+    public tasksService: TasksService,
+    private _snackBar: MatSnackBar
+  ) {
+    this.subscriptionTasksMany = this.tasksService.tasksList.subscribe((e) => {
+      this.tasksCompleted = this.tasksService.filterSort('completed');
+      this.tasksInProgress = this.tasksService.filterSort('in-progress');
     });
   }
 
@@ -41,112 +33,97 @@ export class DashboardComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    const a = this.tasksService.getTasksByStatus('in-progress');
-    const b = this.tasksService.getTasksByStatus('completed');
+    const myObserver = {
+      next: (res: Task[]) => {
+        this.tasksService.tasksList.next(res);
+      },
+      error: (err: HttpErrorResponse) => {
+        this.openSnackBar('error-snackbar', err.error.message);
+      },
+    };
 
-    const cloned = cloneDeep(a.concat(b));
-
-    this.tasksList.next(cloned);
+    this.tasksService.readTasksMany().subscribe(myObserver);
   }
 
   addTaskEvent(myData: AddTask) {
-    const newTask = this.tasksService.addTask(myData);
+    const myObserver = {
+      next: (res: Task) => {
+        this.openSnackBar('success-snackbar', 'Task successfully created!');
+      },
+      error: (err: HttpErrorResponse) => {
+        this.openSnackBar('error-snackbar', err.error.message);
+      },
+    };
 
-    const oldValue = this.tasksList.value;
-
-    if (oldValue === null) return;
-
-    const myTasks = [newTask, ...oldValue];
-
-    this.tasksList.next(myTasks);
+    this.tasksService.createTask(myData).subscribe(myObserver);
   }
 
   deleteTaskEvent(_id: string) {
-    this.tasksService.deleteTask(_id);
+    const myObserver = {
+      next: (res: { _id: string }) => {
+        this.openSnackBar('success-snackbar', 'Task successfully deleted!');
+      },
+      error: (err: HttpErrorResponse) => {
+        this.openSnackBar('error-snackbar', err.error.message);
+      },
+    };
 
-    if (this.tasksList.value === null) return;
-
-    const myIndex = this.tasksList.value.findIndex(
-      (element) => element._id === _id
-    );
-
-    if (myIndex === -1) return;
-
-    this.tasksList.value.splice(myIndex, 1);
-
-    this.tasksList.next(this.tasksList.value);
+    this.tasksService.deleteTask(_id).subscribe(myObserver);
   }
 
   editTaskEvent(_id: string, myData: EditTask) {
-    this.tasksService.editTask(_id, myData);
+    const myObserver = {
+      next: (res: Task) => {
+        this.openSnackBar('success-snackbar', 'Task successfully edited!');
+      },
+      error: (err: HttpErrorResponse) => {
+        this.openSnackBar('error-snackbar', err.error.message);
+      },
+    };
 
-    if (this.tasksList.value === null) return;
-
-    const myIndex = this.tasksList.value.findIndex(
-      (element) => element._id === _id
-    );
-
-    if (myIndex === -1) return;
-
-    const element = this.tasksList.value[myIndex];
-
-    this.tasksList.value[myIndex] = { ...element, ...myData };
-
-    this.tasksList.next(this.tasksList.value);
+    this.tasksService.updateTask(_id, myData).subscribe(myObserver);
   }
 
   completeTaskEvent(_id: string) {
-    const res = this.tasksService.completeTask(_id);
+    const myObserver = {
+      error: (err: HttpErrorResponse) => {
+        this.openSnackBar('error-snackbar', err.error.message);
+      },
+    };
 
-    if (res === null) return;
+    this.tasksService.completeTask(_id).subscribe(myObserver);
+  }
 
-    const currentValue = this.tasksList.value;
-
-    if (currentValue === null) return;
-
-    const myElement = currentValue.find((element) => element._id === _id);
-
-    if (myElement === undefined) return;
-
-    myElement.status = { value: 'completed', index: res.index };
-    myElement.completed = new Date();
-
-    this.tasksList.next([...currentValue]);
+  openSnackBar(style: string, message: string) {
+    this._snackBar.openFromComponent(SnackbarComponent, {
+      duration: 5000,
+      panelClass: [style],
+      data: { message: message },
+    });
   }
 
   drop(event: CdkDragDrop<Task[]>) {
-    const preIndex = event.previousIndex;
-    const curIndex = event.currentIndex;
-
-    const statusIndexPre = this.tasksInProgress[preIndex].status.index;
-
-    this.tasksInProgress[preIndex].status.index =
-      this.tasksInProgress[curIndex].status.index;
-
-    this.tasksInProgress[curIndex].status.index = statusIndexPre;
+    const oldTasksOrdering = this.tasksInProgress.map((task) => ({
+      _id: task._id,
+      priorityIndex: task.priorityIndex,
+    }));
 
     moveItemInArray(
       this.tasksInProgress,
       event.previousIndex,
       event.currentIndex
     );
-  }
 
-  dropCompleted(event: CdkDragDrop<Task[]>) {
-    const preIndex = event.previousIndex;
-    const curIndex = event.currentIndex;
+    const newTasksOrdering = this.tasksInProgress;
 
-    const statusIndexPre = this.tasksCompleted[preIndex].status.index;
+    oldTasksOrdering.forEach((task, index) => {
+      newTasksOrdering[index].priorityIndex = task.priorityIndex;
 
-    this.tasksCompleted[preIndex].status.index =
-      this.tasksCompleted[curIndex].status.index;
-
-    this.tasksCompleted[curIndex].status.index = statusIndexPre;
-
-    moveItemInArray(
-      this.tasksCompleted,
-      event.previousIndex,
-      event.currentIndex
-    );
+      this.tasksService
+        .updateTask(newTasksOrdering[index]._id, {
+          priorityIndex: task.priorityIndex,
+        })
+        .subscribe();
+    });
   }
 }

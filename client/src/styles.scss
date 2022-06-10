@@ -57,3 +57,18 @@ div {
 .cdk-drag-animating {
   transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
 }
+
+.success-snackbar {
+  background-color: theme.$palette-success;
+  position: relative;
+}
+
+.error-snackbar {
+  background-color: theme.$palette-warn;
+  position: relative;
+}
+
+.info-snackbar {
+  background-color: theme.$palette-info;
+  position: relative;
+}

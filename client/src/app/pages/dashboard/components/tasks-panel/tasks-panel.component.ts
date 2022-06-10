@@ -1,14 +1,15 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { AddTaskComponent } from 'src/app/pages/dialogs/add-task/add-task.component';
+import { AddTaskComponent } from 'src/app/dialogs/add-task/add-task.component';
 import { AddTask } from '../../models/models.tasks';
 
 @Component({
-  selector: 'app-controls-in-progress',
-  templateUrl: './controls-in-progress.component.html',
-  styleUrls: ['./controls-in-progress.component.scss'],
+  selector: 'app-tasks-panel',
+  templateUrl: './tasks-panel.component.html',
+  styleUrls: ['./tasks-panel.component.scss'],
 })
-export class ControlsInProgressComponent implements OnInit {
+export class TasksPanelComponent implements OnInit {
+  @Input() completed: boolean = false;
   @Output() addTaskEvent = new EventEmitter<AddTask>();
 
   constructor(public dialog: MatDialog) {}

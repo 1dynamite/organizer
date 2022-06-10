@@ -1,11 +1,12 @@
-type StatusValue = 'in-progress' | 'completed';
+type Status = 'in-progress' | 'completed';
 
 interface Task {
   _id: string;
   title: string;
-  status: { value: StatusValue; index: number };
-  created: Date;
-  completed: Date | null;
+  status: Status;
+  createdAt: Date;
+  completed?: Date;
+  priorityIndex: number;
 }
 
 interface AddTask {
@@ -13,7 +14,13 @@ interface AddTask {
 }
 
 interface EditTask {
-  title: string;
+  title?: string;
+  priorityIndex?: number;
 }
 
-export { Task, AddTask, EditTask, StatusValue };
+interface ErrorType {
+  status: number;
+  message: string;
+}
+
+export { Task, AddTask, EditTask, ErrorType };
