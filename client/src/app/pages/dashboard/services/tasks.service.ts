@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { AddTask, EditTask, ErrorType, Task } from '../models/models.tasks';
+import { AddTask, EditTask, Task } from '../models/models.tasks';
 import { HttpClient } from '@angular/common/http';
-import { BehaviorSubject, catchError, Observable, tap, throwError } from 'rxjs';
+import { BehaviorSubject, Observable, tap } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
