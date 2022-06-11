@@ -1,4 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { MatButtonModule } from '@angular/material/button';
+import { MatDialogRef } from '@angular/material/dialog';
 
 import { DeleteTaskComponent } from './delete-task.component';
 
@@ -8,9 +10,10 @@ describe('DeleteTaskComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ DeleteTaskComponent ]
-    })
-    .compileComponents();
+      declarations: [DeleteTaskComponent],
+      imports: [MatButtonModule],
+      providers: [{ provide: MatDialogRef, useValue: { close: () => {} } }],
+    }).compileComponents();
   });
 
   beforeEach(() => {

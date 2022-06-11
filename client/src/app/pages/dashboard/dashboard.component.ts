@@ -4,7 +4,7 @@ import { AddTask, EditTask, Task } from './models/models.tasks';
 import { TasksService } from './services/tasks.service';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { HttpErrorResponse } from '@angular/common/http';
-import { MatSnackBar, MatSnackBarRef } from '@angular/material/snack-bar';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { SnackbarComponent } from 'src/app/snackbar/snackbar.component';
 
 @Component({

@@ -1,4 +1,8 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { MatDialogRef } from '@angular/material/dialog';
+import { MatButtonModule } from '@angular/material/button';
+import { FormsModule } from 'src/app/shared/forms/forms.module';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { AddTaskComponent } from './add-task.component';
 
@@ -8,9 +12,10 @@ describe('AddTaskComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ AddTaskComponent ]
-    })
-    .compileComponents();
+      declarations: [AddTaskComponent],
+      imports: [FormsModule, MatButtonModule, BrowserAnimationsModule],
+      providers: [{ provide: MatDialogRef, useValue: { close: () => {} } }],
+    }).compileComponents();
   });
 
   beforeEach(() => {
