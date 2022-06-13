@@ -2,7 +2,7 @@ const Tasks = require("../models/tasks.model");
 const _myCounter = require("../services/_counter.service");
 const createError = require("http-errors");
 
-const readTasks = async (req, res, next) => {
+const getTasks = async (req, res, next) => {
   try {
     const tasksMany = await Tasks.find({});
 
@@ -57,7 +57,7 @@ const deleteTask = async (req, res, next) => {
 };
 
 module.exports = {
-  readTasks,
+  getTasks,
   createTask,
   updateTask,
   deleteTask,

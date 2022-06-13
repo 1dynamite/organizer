@@ -4,7 +4,7 @@ const validators = require("../validators/tasks.validator");
 
 const router = express.Router();
 
-router.get("/", controller.readTasks);
+router.get("/", controller.getTasks);
 
 router.post("/", controller.createTask);
 
