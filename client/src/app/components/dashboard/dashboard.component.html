@@ -7,7 +7,7 @@
     <div class="tasks-list" cdkDropList (cdkDropListDropped)="drop($event)">
       <app-task-item
         class="task-box"
-        *ngFor="let task of tasksInProgress"
+        *ngFor="let task of tasksService.tasksInProgress"
         [completed]="false"
         [taskItem]="task"
         cdkDrag
@@ -22,7 +22,7 @@
     <div class="tasks-list">
       <app-task-item
         class="task-box"
-        *ngFor="let task of tasksCompleted"
+        *ngFor="let task of tasksService.tasksCompleted"
         [completed]="true"
         [taskItem]="task"
         (editTaskEvent)="editTaskEvent(task._id, $event)"

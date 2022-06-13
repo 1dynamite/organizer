@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { AddTaskComponent } from 'src/app/dialogs/add-task/add-task.component';
+import { AddTaskComponent } from 'src/app/components/dialogs/add-task/add-task.component';
 import { AddTask } from '../../models/models.tasks';
 
 @Component({

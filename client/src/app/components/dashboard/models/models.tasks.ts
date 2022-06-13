@@ -23,4 +23,9 @@ interface ErrorType {
   message: string;
 }
 
-export { Task, AddTask, EditTask, ErrorType };
+interface EditTasksMany {
+  _id: string;
+  myData: EditTask;
+}
+
+export { Task, AddTask, EditTask, ErrorType, EditTasksMany };

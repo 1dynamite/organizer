@@ -2,8 +2,8 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { EditTask, Task } from '../../models/models.tasks';
 import { MatDialog } from '@angular/material/dialog';
-import { EditTaskComponent } from 'src/app/dialogs/edit-task/edit-task.component';
-import { DeleteTaskComponent } from 'src/app/dialogs/delete-task/delete-task.component';
+import { EditTaskComponent } from 'src/app/components/dialogs/edit-task/edit-task.component';
+import { DeleteTaskComponent } from 'src/app/components/dialogs/delete-task/delete-task.component';
 
 @Component({
   selector: 'app-task-item',

@@ -1,17 +1,12 @@
 <div class="title">
   <div class="title-text">
-    <h1 mat-dialog-title>Create Account</h1>
+    <h1 mat-dialog-title>Edit task</h1>
   </div>
 </div>
 <div mat-dialog-content class="fields-container">
   <mat-form-field appearance="fill">
     <mat-label>Title</mat-label>
-    <input
-      required="true"
-      matInput
-      class="title-field-input"
-      [formControl]="title"
-    />
+    <input matInput class="title-field-input" [formControl]="title" />
     <mat-error *ngIf="title?.invalid">
       {{ getErrorMessage() }}
     </mat-error>
