@@ -7,11 +7,11 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { AlertService } from 'src/app/services/alert.service';
 
 @Component({
-  selector: 'app-dashboard',
-  templateUrl: './dashboard.component.html',
-  styleUrls: ['./dashboard.component.scss'],
+  selector: 'app-tasks',
+  templateUrl: './tasks.component.html',
+  styleUrls: ['./tasks.component.scss'],
 })
-export class DashboardComponent implements OnInit, OnDestroy {
+export class TasksComponent implements OnInit, OnDestroy {
   subscriptionTasksMany: Subscription;
 
   constructor(

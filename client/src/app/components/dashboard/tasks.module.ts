@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { DashboardComponent } from './dashboard.component';
+import { TasksComponent } from './tasks.component';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatDialogModule } from '@angular/material/dialog';
@@ -9,9 +9,10 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { TaskItemModule } from './components/task-item/task-item.module';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { TasksPanelComponent } from './components/tasks-panel/tasks-panel.component';
+import { MatTabsModule } from '@angular/material/tabs';
 
 @NgModule({
-  declarations: [DashboardComponent, TasksPanelComponent],
+  declarations: [TasksComponent, TasksPanelComponent],
   imports: [
     CommonModule,
     MatButtonModule,
@@ -21,7 +22,8 @@ import { TasksPanelComponent } from './components/tasks-panel/tasks-panel.compon
     MatCheckboxModule,
     TaskItemModule,
     DragDropModule,
+    MatTabsModule,
   ],
-  exports: [DashboardComponent],
+  exports: [TasksComponent],
 })
-export class DashboardModule {}
+export class TasksModule {}

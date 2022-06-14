@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { AppComponent } from './app.component';
-import { DashboardModule } from './components/dashboard/dashboard.module';
+import { TasksModule } from './components/dashboard/tasks.module';
 import { HttpClient } from '@angular/common/http';
 import { HttpClientModule } from '@angular/common/http';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -12,7 +12,7 @@ describe('AppComponent', () => {
     await TestBed.configureTestingModule({
       imports: [
         RouterTestingModule,
-        DashboardModule,
+        TasksModule,
         HttpClientModule,
         MatSnackBarModule,
       ],

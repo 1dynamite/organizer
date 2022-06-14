@@ -1,14 +1,20 @@
 @use "@angular/material" as mat;
 @use "/src/theme.constants.scss" as theme;
 
-.dashboard {
-  width: 100vw;
-  height: 100vh;
+.tasks {
+  width: 100%;
+  height: 100%;
   background-color: theme.$light-bg-color;
   display: flex;
   align-items: center;
   padding: 2rem 3rem;
   gap: 1rem;
+}
+
+.tab-group {
+  display: flex;
+  height: 100%;
+  flex: 1 1 0;
 }
 
 .tasks-section {
@@ -19,7 +25,7 @@
   flex: 1 1 0;
   padding: 1rem;
   background-color: white;
-  border-radius: theme.$border-radius;
+  border-radius: 0 0 theme.$border-radius theme.$border-radius;
   border: 1px solid theme.$grey-bg-color;
 }
 
