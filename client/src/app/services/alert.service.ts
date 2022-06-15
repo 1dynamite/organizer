@@ -16,15 +16,15 @@ export class AlertService {
     });
   }
 
-  openErrorMessage(message: string) {
+  error(message: string) {
     this.openSnackBar('error-snackbar', message);
   }
 
-  openInfoMessage(message: string) {
+  info(message: string) {
     this.openSnackBar('info-snackbar', message);
   }
 
-  openSuccessMessage(message: string) {
+  success(message: string) {
     this.openSnackBar('success-snackbar', message);
   }
 }
