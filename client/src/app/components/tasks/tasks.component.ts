@@ -40,7 +40,7 @@ export class TasksComponent implements OnInit, OnDestroy {
       },
     };
 
-    this.tasksService.getTasksMany().subscribe(myObserver);
+    this.tasksService.getTasksList().subscribe(myObserver);
   }
 
   addTaskEvent(myData: AddTask) {

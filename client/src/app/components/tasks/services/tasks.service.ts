@@ -16,7 +16,7 @@ export class TasksService {
 
   constructor(private httpClient: HttpClient) {}
 
-  getTasksMany(): Observable<Task[]> {
+  getTasksList(): Observable<Task[]> {
     return this.httpClient.get<Task[]>(`${baseUrl}tasks`);
   }
 
