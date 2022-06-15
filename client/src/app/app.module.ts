@@ -4,7 +4,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { TasksModule } from './components/dashboard/tasks.module';
+import { TasksModule } from './components/tasks/tasks.module';
 import { MatDialogModule } from '@angular/material/dialog';
 import { FormsModule } from './shared/forms/forms.module';
 import { AddTaskComponent } from './components/dialogs/add-task/add-task.component';

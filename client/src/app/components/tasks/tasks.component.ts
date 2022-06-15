@@ -36,7 +36,7 @@ export class TasksComponent implements OnInit, OnDestroy {
         this.tasksService.tasksList.next(res);
       },
       error: (err: HttpErrorResponse) => {
-        this.alertService.openErrorMessage(err.error.message);
+        this.alertService.error(err.error.message);
       },
     };
 
@@ -46,10 +46,10 @@ export class TasksComponent implements OnInit, OnDestroy {
   addTaskEvent(myData: AddTask) {
     const myObserver = {
       next: (res: Task) => {
-        this.alertService.openSuccessMessage('Task successfully created!');
+        this.alertService.success('Task successfully created!');
       },
       error: (err: HttpErrorResponse) => {
-        this.alertService.openErrorMessage(err.error.message);
+        this.alertService.error(err.error.message);
       },
     };
 
@@ -59,10 +59,10 @@ export class TasksComponent implements OnInit, OnDestroy {
   deleteTaskEvent(_id: string) {
     const myObserver = {
       next: (res: { _id: string }) => {
-        this.alertService.openSuccessMessage('Task successfully deleted!');
+        this.alertService.success('Task successfully deleted!');
       },
       error: (err: HttpErrorResponse) => {
-        this.alertService.openErrorMessage(err.error.message);
+        this.alertService.error(err.error.message);
       },
     };
 
@@ -72,10 +72,10 @@ export class TasksComponent implements OnInit, OnDestroy {
   editTaskEvent(_id: string, myData: EditTask) {
     const myObserver = {
       next: (res: Task) => {
-        this.alertService.openSuccessMessage('Task successfully edited!');
+        this.alertService.success('Task successfully edited!');
       },
       error: (err: HttpErrorResponse) => {
-        this.alertService.openErrorMessage(err.error.message);
+        this.alertService.error(err.error.message);
       },
     };
 
@@ -85,7 +85,7 @@ export class TasksComponent implements OnInit, OnDestroy {
   completeTaskEvent(_id: string) {
     const myObserver = {
       error: (err: HttpErrorResponse) => {
-        this.alertService.openErrorMessage(err.error.message);
+        this.alertService.error(err.error.message);
       },
     };
 
