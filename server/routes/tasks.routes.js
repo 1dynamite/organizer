@@ -6,7 +6,7 @@ const router = express.Router();
 
 router.get("/", controller.getTasks);
 
-router.post("/", controller.createTask);
+router.post("/", validators.validateTask, controller.createTask);
 
 router.patch("/:taskId", validators.validateTask, controller.updateTask);
 
