@@ -4,9 +4,9 @@ const createError = require("http-errors");
 
 const getTasks = async (req, res, next) => {
   try {
-    const tasksMany = await Tasks.find({});
+    const tasksList = await Tasks.find({});
 
-    res.status(200).json(tasksMany);
+    res.status(200).json(tasksList);
   } catch (error) {
     next(error);
   }
