@@ -4,7 +4,9 @@ const createError = require("http-errors");
 
 const getTasks = async (req, res, next) => {
   try {
-    const tasksList = await Tasks.find({});
+    const tasksList = await Tasks.find(req.query).sort({
+      priorityIndex: -1,
+    });
 
     res.status(200).json(tasksList);
   } catch (error) {
@@ -56,9 +58,20 @@ const deleteTask = async (req, res, next) => {
   }
 };
 
+const getTasksByProjectId = async (req, res, next) => {
+  try {
+    const tasksList = await Tasks.find({ projectId: req.params.projectId });
+
+    res.status(200).json(tasksList);
+  } catch (error) {
+    next(error);
+  }
+};
+
 module.exports = {
   getTasks,
   createTask,
   updateTask,
   deleteTask,
+  getTasksByProjectId,
 };

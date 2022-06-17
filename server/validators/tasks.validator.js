@@ -7,6 +7,7 @@ const TaskSchema = Joi.object({
   completed: Joi.date(),
   status: Joi.string(),
   priorityIndex: Joi.number(),
+  projectId: Joi.string(),
 }).with("status", "completed");
 
 const validateTask = (req, res, next) => {

@@ -1,3 +1,4 @@
+const { string } = require("joi");
 const mongoose = require("mongoose");
 
 const TaskSchema = new mongoose.Schema(
@@ -19,6 +20,8 @@ const TaskSchema = new mongoose.Schema(
     completed: Date,
 
     priorityIndex: Number,
+
+    projectId: mongoose.Types.ObjectId,
   },
   {
     timestamps: true,
