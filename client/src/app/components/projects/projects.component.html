@@ -1,0 +1,34 @@
+<div class="projects">
+  <div class="projects-section">
+    <div class="top-panel">
+      <div>
+        <h2>My Projects</h2>
+      </div>
+      <div>
+        <button mat-raised-button color="primary" (click)="addProject()">
+          Add project
+        </button>
+      </div>
+    </div>
+
+    <div class="projects-list">
+      <div class="project-item" *ngFor="let p of myProjects">
+        <div class="title">
+          <h3>{{ p.title }}</h3>
+        </div>
+        <div class="actions">
+          <div class="progress-bar-container">
+            <p>3/7</p>
+            <mat-progress-bar mode="determinate" value="40"></mat-progress-bar>
+          </div>
+          <button mat-icon-button class="icon-button" (click)="onEditClick()">
+            <mat-icon>edit</mat-icon>
+          </button>
+          <button mat-icon-button class="icon-button" (click)="onDeleteClick()">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

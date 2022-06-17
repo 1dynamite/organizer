@@ -1,0 +1,9 @@
+<div class="title">
+  <div class="title-text">
+    <h1 mat-dialog-title>Are you sure you want to delete it?</h1>
+  </div>
+</div>
+<div mat-dialog-actions class="actions">
+  <button mat-stroked-button (click)="onNoClick()">Cancel</button>
+  <button mat-flat-button color="warn" (click)="onClickDelete()">Yes</button>
+</div>
