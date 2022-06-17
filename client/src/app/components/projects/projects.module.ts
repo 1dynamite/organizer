@@ -1,20 +1,20 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ProjectsComponent } from './projects.component';
-import { MatButtonModule } from '@angular/material/button';
-import { MatIconModule } from '@angular/material/icon';
+import { ProgressBarComponent } from './components/progress-bar/progress-bar.component';
+import { TodoModule } from '../todo/todo.module';
+import { DragDropModule } from '@angular/cdk/drag-drop';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { MatButtonModule } from '@angular/material/button';
 
 @NgModule({
-  declarations: [ProjectsComponent],
+  declarations: [ProjectsComponent, ProgressBarComponent],
   imports: [
     CommonModule,
     MatButtonModule,
-    MatIconModule,
+    TodoModule,
+    DragDropModule,
     MatProgressBarModule,
-    /*  MatDialogModule,
-    FormsModule, */
   ],
-  exports: [ProjectsComponent],
 })
 export class ProjectsModule {}

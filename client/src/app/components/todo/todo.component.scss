@@ -1,0 +1,14 @@
+@use "@angular/material" as mat;
+@use "/src/theme.constants.scss" as theme;
+
+.todo-section {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  height: 100%;
+  flex: 1 1 0;
+  padding: 1rem;
+  background-color: white;
+  border-radius: theme.$border-radius;
+  border: 1px solid theme.$grey-bg-color;
+}

@@ -1,39 +1,149 @@
-<div class="tasks">
-  <mat-tab-group class="tab-group">
+<div class="root">
+  <mat-tab-group class="tab-group" (selectedIndexChange)="onTabChange($event)">
     <mat-tab label="My Tasks">
-      <div class="tasks-section">
-        <app-tasks-panel
-          [completed]="false"
-          (addTaskEvent)="addTaskEvent($event)"
-        ></app-tasks-panel>
-        <div class="tasks-list" cdkDropList (cdkDropListDropped)="drop($event)">
-          <app-task-item
-            class="task-box"
-            *ngFor="let task of tasksService.tasksInProgress"
-            [completed]="false"
-            [taskItem]="task"
+      <app-todo class="todo">
+        <app-top-panel topPanel title="My Tasks">
+          <ng-container *ngIf="!completed; else myCheckbox">
+            <button mat-raised-button color="primary" (click)="openDialog()">
+              Add task
+            </button>
+          </ng-container>
+
+          <ng-template #myCheckbox>
+            <mat-checkbox class="check-box" [disabled]="true" [checked]="true">
+            </mat-checkbox>
+          </ng-template>
+        </app-top-panel>
+
+        <div
+          todoList
+          class="todo-list"
+          cdkDropList
+          (cdkDropListDropped)="drop($event)"
+        >
+          <app-todo-item
+            class="todo-box"
+            todoItem
             cdkDrag
-            (completeTaskEvent)="completeTaskEvent(task._id)"
-            (editTaskEvent)="editTaskEvent(task._id, $event)"
-            (deleteTaskEvent)="deleteTaskEvent(task._id)"
-          ></app-task-item>
+            *ngFor="let item of tasksService.todoService.items"
+            [title]="item.title"
+            (editItemEvent)="editTaskEvent(item._id, $event)"
+            (deleteItemEvent)="deleteTaskEvent(item._id)"
+          >
+            <div leftOfTitle *ngIf="!completed" class="status">
+              <mat-checkbox
+                (change)="completeTaskEvent(item._id)"
+                [checked]="item.status === 'completed'"
+                [disabled]="item.status === 'completed'"
+                class="check-box"
+              >
+              </mat-checkbox>
+            </div>
+            <div leftOfActions class="leftOfActions">
+              <app-project-title-chip
+                *ngIf="item.projectId"
+                [projectId]="item.projectId"
+              ></app-project-title-chip>
+            </div>
+          </app-todo-item>
         </div>
-      </div>
+      </app-todo>
     </mat-tab>
     <mat-tab label="Completed Tasks">
-      <div class="tasks-section">
-        <app-tasks-panel [completed]="true"></app-tasks-panel>
-        <div class="tasks-list">
-          <app-task-item
-            class="task-box"
-            *ngFor="let task of tasksService.tasksCompleted"
-            [completed]="true"
-            [taskItem]="task"
-            (editTaskEvent)="editTaskEvent(task._id, $event)"
-            (deleteTaskEvent)="deleteTaskEvent(task._id)"
-          ></app-task-item>
+      <app-todo class="todo">
+        <app-top-panel topPanel title="Completed Tasks">
+          <ng-container *ngIf="false; else myCheckbox">
+            <button mat-raised-button color="primary" (click)="openDialog()">
+              Add task
+            </button>
+          </ng-container>
+
+          <ng-template #myCheckbox>
+            <mat-checkbox class="check-box" [disabled]="true" [checked]="true">
+            </mat-checkbox>
+          </ng-template>
+        </app-top-panel>
+
+        <div
+          todoList
+          class="todo-list"
+          cdkDropList
+          (cdkDropListDropped)="drop($event)"
+        >
+          <app-todo-item
+            class="todo-box"
+            todoItem
+            cdkDrag
+            *ngFor="let item of tasksService.todoService.items"
+            [title]="item.title"
+            (editItemEvent)="editTaskEvent(item._id, $event)"
+            (deleteItemEvent)="deleteTaskEvent(item._id)"
+          >
+            <div leftOfTitle *ngIf="!completed" class="status">
+              <mat-checkbox
+                (change)="completeTaskEvent(item._id)"
+                [checked]="item.status === 'completed'"
+                [disabled]="item.status === 'completed'"
+                class="check-box"
+              >
+              </mat-checkbox>
+            </div>
+            <div leftOfActions class="leftOfActions">
+              <app-project-title-chip
+                *ngIf="item.projectId"
+                [projectId]="item.projectId"
+              ></app-project-title-chip>
+            </div>
+          </app-todo-item>
         </div>
-      </div>
+      </app-todo>
     </mat-tab>
   </mat-tab-group>
+  <!-- <app-todo class="todo">
+    <app-top-panel topPanel title="My Tasks">
+      <ng-container *ngIf="!completed; else myCheckbox">
+        <button mat-raised-button color="primary" (click)="openDialog()">
+          Add task
+        </button>
+      </ng-container>
+
+      <ng-template #myCheckbox>
+        <mat-checkbox class="check-box" [disabled]="true" [checked]="true">
+        </mat-checkbox>
+      </ng-template>
+    </app-top-panel>
+
+    <div
+      todoList
+      class="todo-list"
+      cdkDropList
+      (cdkDropListDropped)="drop($event)"
+    >
+      <app-todo-item
+        class="todo-box"
+        todoItem
+        cdkDrag
+        *ngFor="let item of tasksService.todoService.items"
+        [title]="item.title"
+        (editItemEvent)="editTaskEvent(item._id, $event)"
+        (deleteItemEvent)="deleteTaskEvent(item._id)"
+      >
+        <div leftOfTitle *ngIf="!completed" class="status">
+          <mat-checkbox
+            (change)="completeTaskEvent(item._id)"
+            [checked]="item.status === 'completed'"
+            [disabled]="item.status === 'completed'"
+            class="check-box"
+          >
+          </mat-checkbox>
+        </div>
+        <div leftOfActions class="leftOfActions">
+          <app-project-title-chip
+            *ngIf="item.projectId"
+            [projectId]="item.projectId"
+          ></app-project-title-chip>
+        </div>
+      </app-todo-item>
+    </div>
+  </app-todo> -->
 </div>

@@ -1,0 +1,16 @@
+<div class="root">
+  <ng-content select="[leftOfTitle]"></ng-content>
+
+  <div class="title">
+    <h3>{{ title }}</h3>
+  </div>
+  <div class="actions">
+    <ng-content select="[leftOfActions]"></ng-content>
+    <button mat-icon-button class="icon-button" (click)="onEditClick($event)">
+      <mat-icon>edit</mat-icon>
+    </button>
+    <button mat-icon-button class="icon-button" (click)="onDeleteClick($event)">
+      <mat-icon>delete</mat-icon>
+    </button>
+  </div>
+</div>
