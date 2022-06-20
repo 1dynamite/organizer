@@ -1,4 +1,6 @@
 const Tasks = require("../models/tasks.model");
+const projectsService = require("../services/projects.service");
+const _myCounter = require("../services/_counter.service");
 
 function getTasks(filter, sort) {
   return Tasks.find(filter).sort(sort);
@@ -9,17 +11,41 @@ async function createTask(body) {
 
   body.priorityIndex = myIndex;
 
-  return Tasks.create(body);
+  const task = await Tasks.create(body);
+
+  if (body.projectId) {
+    await projectsService.updateProject(body.projectId, {
+      $inc: { totalNumberOfTasks: 1 },
+    });
+  }
+
+  return task;
 }
 
-function updateTask(taskId, body) {
-  return Tasks.findOneAndUpdate({ _id: taskId }, body, {
+async function updateTask(taskId, body) {
+  const task = await Tasks.findOneAndUpdate({ _id: taskId }, body, {
     new: true,
   });
+
+  if (body.completed && task.projectId) {
+    await projectsService.updateProject(task.projectId, {
+      $inc: { numberOfCompletedTasks: 1 },
+    });
+  }
+
+  return task;
 }
 
-function deleteTask(taskId) {
-  return Tasks.findByIdAndDelete(taskId);
+async function deleteTask(taskId) {
+  const task = await Tasks.findByIdAndDelete(taskId);
+
+  if (task.projectId) {
+    await projectsService.updateProject(task.projectId, {
+      $inc: { totalNumberOfTasks: -1 },
+    });
+  }
+
+  return task;
 }
 
 module.exports = { getTasks, createTask, updateTask, deleteTask };

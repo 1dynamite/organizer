@@ -8,6 +8,16 @@ const ProjectSchema = new mongoose.Schema(
     },
 
     priorityIndex: Number,
+
+    numberOfCompletedTasks: {
+      type: Number,
+      default: 0,
+    },
+
+    totalNumberOfTasks: {
+      type: Number,
+      default: 0,
+    },
   },
   {
     timestamps: true,

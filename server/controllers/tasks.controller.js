@@ -15,7 +15,7 @@ const getTasks = async (req, res, next) => {
 
 const createTask = async (req, res, next) => {
   try {
-    const newTask = await tasksList.createTask(req.body);
+    const newTask = await tasksService.createTask(req.body);
 
     res.status(201).json(newTask);
   } catch (error) {
