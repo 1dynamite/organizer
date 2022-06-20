@@ -10,6 +10,15 @@
   padding: 2rem 3rem;
 }
 
+.progress-bar {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  width: 10rem;
+  margin-right: 3rem;
+  align-items: flex-end;
+}
+
 .todo {
   flex-grow: 1;
 }

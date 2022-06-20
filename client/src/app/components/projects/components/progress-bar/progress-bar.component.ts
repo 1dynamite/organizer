@@ -11,27 +11,13 @@ const baseUrl = environment.baseUrl;
   styleUrls: ['./progress-bar.component.scss'],
 })
 export class ProgressBarComponent implements OnInit {
-  @Input() projectId!: string;
-
-  totalNumber = 0;
-  completedNumber = 0;
+  @Input() totalNumber = 0;
+  @Input() completedNumber = 0;
   progressValue = 0;
 
-  constructor(private httpClient: HttpClient) {}
+  constructor() {}
 
   ngOnInit(): void {
-    this.httpClient
-      .get<any>(`${baseUrl}tasks?projectId=${this.projectId}`)
-      .subscribe((tasks) => {
-        this.totalNumber = tasks.length;
-
-        const completedTasks = tasks.filter(
-          (element: any) => element.status === 'completed'
-        );
-
-        this.completedNumber = completedTasks.length;
-
-        this.progressValue = (this.completedNumber / this.totalNumber) * 100;
-      });
+    this.progressValue = (this.completedNumber / this.totalNumber) * 100;
   }
 }

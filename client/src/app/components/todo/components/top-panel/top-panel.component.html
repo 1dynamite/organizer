@@ -3,18 +3,6 @@
     <h2>{{ title }}</h2>
   </div>
   <div class="right">
-    <!-- <ng-container *ngIf="!completed">
-      <button mat-raised-button color="primary" (click)="addItem()">
-        <ng-container *ngIf="isProject"> Add project </ng-container>
-        <ng-container *ngIf="!isProject"> Add task </ng-container>
-      </button>
-    </ng-container>
-
-    <ng-container *ngIf="completed">
-      <mat-checkbox class="check-box" [disabled]="true" [checked]="true">
-      </mat-checkbox>
-    </ng-container> -->
-
     <ng-content></ng-content>
   </div>
 </div>

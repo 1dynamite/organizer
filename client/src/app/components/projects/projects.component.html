@@ -22,7 +22,11 @@
         (deleteItemEvent)="deleteProjectEvent(item._id)"
         (click)="onClickItem(item._id)"
       >
-        <app-progress-bar leftOfActions [projectId]="item._id">
+        <app-progress-bar
+          leftOfActions
+          [totalNumber]="item.totalNumberOfTasks"
+          [completedNumber]="item.numberOfCompletedTasks"
+        >
         </app-progress-bar>
       </app-todo-item>
     </div>
