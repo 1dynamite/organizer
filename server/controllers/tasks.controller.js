@@ -3,9 +3,12 @@ const tasksService = require("../services/tasks.service");
 
 const getTasks = async (req, res, next) => {
   try {
-    const tasksList = await tasksService.getTasks(req.query, {
-      priorityIndex: -1,
-    });
+    const tasksList = await tasksService.getTasks(
+      { ...req.params, ...req.query },
+      {
+        priorityIndex: -1,
+      }
+    );
 
     res.status(200).json(tasksList);
   } catch (error) {
@@ -15,7 +18,10 @@ const getTasks = async (req, res, next) => {
 
 const createTask = async (req, res, next) => {
   try {
-    const newTask = await tasksService.createTask(req.body);
+    const newTask = await tasksService.createTask({
+      ...req.params,
+      ...req.body,
+    });
 
     res.status(201).json(newTask);
   } catch (error) {

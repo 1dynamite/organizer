@@ -3,9 +3,12 @@ const projectsService = require("../services/projects.service");
 
 const getManyProjects = async (req, res, next) => {
   try {
-    const projectsList = await projectsService.getManyProjects({
-      priorityIndex: -1,
-    });
+    const projectsList = await projectsService.getManyProjects(
+      { userId: req.params.userId },
+      {
+        priorityIndex: -1,
+      }
+    );
 
     res.status(200).json(projectsList);
   } catch (error) {
@@ -25,7 +28,10 @@ const getProject = async (req, res, next) => {
 
 const createProject = async (req, res, next) => {
   try {
-    const newProject = await projectsService.createProject(req.body);
+    const newProject = await projectsService.createProject({
+      userId: req.params.userId,
+      ...req.body,
+    });
 
     res.status(201).json(newProject);
   } catch (error) {

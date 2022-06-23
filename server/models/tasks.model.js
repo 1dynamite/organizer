@@ -1,4 +1,3 @@
-const { string } = require("joi");
 const mongoose = require("mongoose");
 
 const TaskSchema = new mongoose.Schema(
@@ -22,6 +21,11 @@ const TaskSchema = new mongoose.Schema(
     priorityIndex: Number,
 
     projectId: mongoose.Types.ObjectId,
+
+    userId: {
+      type: mongoose.Types.ObjectId,
+      required: [true, "User ID is required"],
+    },
   },
   {
     timestamps: true,

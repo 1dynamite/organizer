@@ -18,6 +18,11 @@ const ProjectSchema = new mongoose.Schema(
       type: Number,
       default: 0,
     },
+
+    userId: {
+      type: mongoose.Types.ObjectId,
+      required: [true, "User ID is required"],
+    },
   },
   {
     timestamps: true,

@@ -2,7 +2,7 @@ const express = require("express");
 const controller = require("../controllers/tasks.controller");
 const validators = require("../validators/tasks.validator");
 
-const router = express.Router();
+const router = express.Router({ mergeParams: true });
 
 router.get("/", controller.getTasks);
 
