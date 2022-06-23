@@ -1,33 +1,51 @@
-import { Injectable } from '@angular/core';
-import { AddTask, EditTasksMany, EditTask, Task } from '../models/models.tasks';
 import { HttpClient } from '@angular/common/http';
-import { BehaviorSubject, forkJoin, Observable, tap } from 'rxjs';
+import { Injectable } from '@angular/core';
+import { TodoService } from '../../todo/services/todo.service';
 import { environment } from 'src/environments/environment';
-import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
+import { forkJoin, Observable, tap } from 'rxjs';
+import { CdkDragDrop } from '@angular/cdk/drag-drop';
+import { ActivatedRoute, Router } from '@angular/router';
 
 const baseUrl = environment.baseUrl;
-@Injectable({
-  providedIn: 'root',
-})
+@Injectable()
 export class TasksService {
-  tasksList = new BehaviorSubject<Task[] | null>(null);
-  tasksCompleted: Task[] = [];
-  tasksInProgress: Task[] = [];
+  constructor(
+    public todoService: TodoService,
+    private httpClient: HttpClient,
+    private route: ActivatedRoute,
+    private router: Router
+  ) {
+    this.router
+      .navigate([], {
+        relativeTo: this.route,
+        queryParams: {
+          projectId: this.route.snapshot.paramMap.get('projectId'),
+        },
+      })
+      .then(() => {
+        this.route.queryParamMap.subscribe((value) => {
+          const status = value.get('status');
+          const projectId = value.get('projectId');
 
-  constructor(private httpClient: HttpClient) {}
+          const params = new URLSearchParams();
 
-  getTasksList(): Observable<Task[]> {
-    return this.httpClient.get<Task[]>(`${baseUrl}tasks`);
+          if (status) params.append('status', status);
+          else params.append('status', 'in-progress');
+          if (projectId) params.append('projectId', projectId);
+
+          this.httpClient
+            .get<any>(`${baseUrl}tasks?${params.toString()}`)
+            .subscribe((res) => {
+              this.todoService.items = res;
+            });
+        });
+      });
   }
 
-  createTask(myData: AddTask): Observable<Task> {
-    return this.httpClient.post<Task>(`${baseUrl}tasks`, myData).pipe(
+  addTask(myData: any): Observable<any> {
+    return this.httpClient.post<any>(`${baseUrl}tasks`, myData).pipe(
       tap((res) => {
-        if (this.tasksList.value === null) return res;
-
-        const myTasks = [res, ...this.tasksList.value];
-
-        this.tasksList.next(myTasks);
+        this.todoService.addItem(res);
 
         return res;
       })
@@ -39,124 +57,58 @@ export class TasksService {
       .delete<{ _id: string }>(`${baseUrl}tasks/${_id}`)
       .pipe(
         tap((res) => {
-          if (this.tasksList.value === null) return res;
-
-          const newValue = this.tasksList.value.filter(
-            (element) => element._id !== res._id
-          );
-
-          this.tasksList.next(newValue);
+          this.todoService.deleteItem(_id);
 
           return res;
         })
       );
   }
 
-  updateTask(_id: string, myData: EditTask): Observable<Task> {
-    return this.httpClient.patch<Task>(`${baseUrl}tasks/${_id}`, myData).pipe(
+  updateTask(_id: string, myData: any): Observable<any> {
+    return this.httpClient.patch<any>(`${baseUrl}tasks/${_id}`, myData).pipe(
       tap((res) => {
-        if (this.tasksList.value === null) return res;
-
-        const myIndex = this.tasksList.value.findIndex(
-          (element) => element._id === res._id
-        );
-
-        if (myIndex === -1) return;
-
-        const element = this.tasksList.value[myIndex];
-
-        this.tasksList.value[myIndex] = { ...element, ...myData };
-
-        this.tasksList.next([...this.tasksList.value]);
+        this.todoService.updateItem(_id, myData);
 
         return res;
       })
     );
   }
 
-  updateTasksMany(myArray: EditTasksMany[]) {
+  updateManyTasks(myArray: any[]) {
     const myObservables = myArray.map((element) => {
-      return this.httpClient.patch<Task>(
+      return this.httpClient.patch<any>(
         `${baseUrl}tasks/${element._id}`,
         element.myData
       );
     });
 
     return forkJoin(myObservables).pipe(
-      tap((res: Task[]) => {
-        res.forEach((task, index) => {
-          this.tasksInProgress[index].priorityIndex = task.priorityIndex;
-        });
-      })
-    );
-  }
-
-  reOrderTasks(event: CdkDragDrop<Task[]>) {
-    const oldTasksOrdering = this.tasksInProgress.map((task) => ({
-      _id: task._id,
-      priorityIndex: task.priorityIndex,
-    }));
-
-    moveItemInArray(
-      this.tasksInProgress,
-      event.previousIndex,
-      event.currentIndex
-    );
-
-    const newTasksOrdering = this.tasksInProgress;
-
-    const myArray: EditTasksMany[] = oldTasksOrdering.map((task, index) => ({
-      _id: newTasksOrdering[index]._id,
-      myData: {
-        priorityIndex: task.priorityIndex,
-      },
-    }));
-
-    this.updateTasksMany(myArray).subscribe();
-  }
-
-  completeTask(_id: string): Observable<Task> {
-    const myData = {
-      status: 'completed',
-      completed: new Date(),
-    };
-
-    return this.httpClient.patch<Task>(`${baseUrl}tasks/${_id}`, myData).pipe(
-      tap((res) => {
-        const currentValue = this.tasksList.value;
-
-        if (currentValue === null) return res;
-
-        const myElement = currentValue.find(
-          (element) => element._id === res._id
-        );
-
-        if (myElement === undefined) return res;
-
-        myElement.status = 'completed';
-        myElement.completed = res.completed;
-
-        this.tasksList.next([...currentValue]);
+      tap((res: any[]) => {
+        this.todoService.updateManyItems(res);
 
         return res;
       })
     );
   }
 
-  filterSort(myFilter: string): Task[] {
-    if (this.tasksList.value === null) return [];
+  reOrder(event: CdkDragDrop<any[]>) {
+    const myArray = this.todoService.reOrder(event);
 
-    const filteredTasks = this.tasksList.value.filter(
-      (element) => element.status === myFilter
+    this.updateManyTasks(myArray).subscribe();
+  }
+
+  completeTask(_id: string): Observable<any> {
+    const myData = {
+      status: 'completed',
+      completed: new Date(),
+    };
+
+    return this.httpClient.patch<any>(`${baseUrl}tasks/${_id}`, myData).pipe(
+      tap((res) => {
+        this.todoService.completeItem(_id, myData);
+
+        return res;
+      })
     );
-
-    if (myFilter === 'completed') {
-      return filteredTasks.sort(
-        (a, b) =>
-          new Date(b.completed!).getTime() - new Date(a.completed!).getTime()
-      );
-    }
-
-    return filteredTasks.sort((a, b) => b.priorityIndex - a.priorityIndex);
   }
 }

@@ -1,34 +1,34 @@
-<div class="projects">
-  <div class="projects-section">
-    <div class="top-panel">
-      <div>
-        <h2>My Projects</h2>
-      </div>
-      <div>
-        <button mat-raised-button color="primary" (click)="addProject()">
-          Add project
-        </button>
-      </div>
-    </div>
+<div class="root">
+  <app-todo class="todo">
+    <app-top-panel topPanel title="My Projects">
+      <button mat-raised-button color="primary" (click)="openDialog()">
+        Add project
+      </button>
+    </app-top-panel>
 
-    <div class="projects-list">
-      <div class="project-item" *ngFor="let p of myProjects">
-        <div class="title">
-          <h3>{{ p.title }}</h3>
-        </div>
-        <div class="actions">
-          <div class="progress-bar-container">
-            <p>3/7</p>
-            <mat-progress-bar mode="determinate" value="40"></mat-progress-bar>
-          </div>
-          <button mat-icon-button class="icon-button" (click)="onEditClick()">
-            <mat-icon>edit</mat-icon>
-          </button>
-          <button mat-icon-button class="icon-button" (click)="onDeleteClick()">
-            <mat-icon>delete</mat-icon>
-          </button>
-        </div>
-      </div>
+    <div
+      todoList
+      class="todo-list"
+      cdkDropList
+      (cdkDropListDropped)="drop($event)"
+    >
+      <app-todo-item
+        class="todo-box"
+        todoItem
+        cdkDrag
+        *ngFor="let item of projectsService.todoService.items"
+        [title]="item.title"
+        (editItemEvent)="editProjectEvent(item._id, $event)"
+        (deleteItemEvent)="deleteProjectEvent(item._id)"
+        (click)="onClickItem(item._id)"
+      >
+        <app-progress-bar
+          leftOfActions
+          [totalNumber]="item.totalNumberOfTasks"
+          [completedNumber]="item.numberOfCompletedTasks"
+        >
+        </app-progress-bar>
+      </app-todo-item>
     </div>
-  </div>
+  </app-todo>
 </div>

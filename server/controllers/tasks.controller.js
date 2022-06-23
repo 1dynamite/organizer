@@ -1,10 +1,11 @@
-const Tasks = require("../models/tasks.model");
-const _myCounter = require("../services/_counter.service");
 const createError = require("http-errors");
+const tasksService = require("../services/tasks.service");
 
 const getTasks = async (req, res, next) => {
   try {
-    const tasksList = await Tasks.find({});
+    const tasksList = await tasksService.getTasks(req.query, {
+      priorityIndex: -1,
+    });
 
     res.status(200).json(tasksList);
   } catch (error) {
@@ -14,11 +15,7 @@ const getTasks = async (req, res, next) => {
 
 const createTask = async (req, res, next) => {
   try {
-    const myIndex = await _myCounter.getIndex();
-
-    req.body.priorityIndex = myIndex;
-
-    const newTask = await Tasks.create(req.body);
+    const newTask = await tasksService.createTask(req.body);
 
     res.status(201).json(newTask);
   } catch (error) {
@@ -28,13 +25,7 @@ const createTask = async (req, res, next) => {
 
 const updateTask = async (req, res, next) => {
   try {
-    const task = await Tasks.findOneAndUpdate(
-      { _id: req.params.taskId },
-      req.body,
-      {
-        new: true,
-      }
-    );
+    const task = await tasksService.updateTask(req.params.taskId, req.body);
 
     if (!task) throw createError(404, "Task not found");
 
@@ -46,7 +37,7 @@ const updateTask = async (req, res, next) => {
 
 const deleteTask = async (req, res, next) => {
   try {
-    const task = await Tasks.findByIdAndDelete(req.params.taskId);
+    const task = await tasksService.deleteTask(req.params.taskId);
 
     if (!task) throw createError(404, "Task not found");
 

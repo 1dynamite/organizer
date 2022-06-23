@@ -17,6 +17,20 @@ $secondary-A100: mat.get-color-from-palette(theme.$palette-secondary, "A100");
   padding: 1rem 0.7rem;
 }
 
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+a:hover {
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.sidenav-title {
+  text-align: center;
+}
+
 .link {
   text-decoration: none;
   color: inherit;
