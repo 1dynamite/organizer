@@ -14,9 +14,6 @@ export class TasksRouteComponent implements OnInit {
   ngOnInit(): void {
     const userId = localStorage.getItem('userId');
 
-    if (!userId) this.router.navigateByUrl('/sign-in');
-    else {
-      this.baseUrlTasks = `users/${userId}/tasks`;
-    }
+    this.baseUrlTasks = `users/${userId}/tasks`;
   }
 }

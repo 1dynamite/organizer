@@ -79,12 +79,13 @@ const sendLinkToEmail = async (req, res, next) => {
     {
       userId: req.token.userId,
       token: req.token.token,
+      baseUrl: process.env.BASE_URL_CLIENT,
     },
     { async: true }
   );
 
   const mailOptions = {
-    from: "s.turaev.lab@gmail.com",
+    from: process.env.MY_EMAIL,
     to: req.user.email,
     subject: "Confirm your email",
     html,

@@ -14,11 +14,8 @@ export class ProjectItemRouteComponent implements OnInit {
   ngOnInit(): void {
     const userId = localStorage.getItem('userId');
 
-    if (!userId) this.router.navigateByUrl('/sign-in');
-    else {
-      this.baseUrlTasks = `users/${userId}/projects/${this.activatedRoute.snapshot.paramMap.get(
-        'projectId'
-      )}/tasks`;
-    }
+    this.baseUrlTasks = `users/${userId}/projects/${this.activatedRoute.snapshot.paramMap.get(
+      'projectId'
+    )}/tasks`;
   }
 }
