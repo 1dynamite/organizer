@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-project-item-route',
@@ -14,7 +15,9 @@ export class ProjectItemRouteComponent implements OnInit {
   ngOnInit(): void {
     const userId = localStorage.getItem('userId');
 
-    this.baseUrlTasks = `users/${userId}/projects/${this.activatedRoute.snapshot.paramMap.get(
+    this.baseUrlTasks = `${
+      environment.baseUrl
+    }users/${userId}/projects/${this.activatedRoute.snapshot.paramMap.get(
       'projectId'
     )}/tasks`;
   }

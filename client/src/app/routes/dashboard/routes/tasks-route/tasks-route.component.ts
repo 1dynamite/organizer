@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-tasks-route',
@@ -14,6 +15,6 @@ export class TasksRouteComponent implements OnInit {
   ngOnInit(): void {
     const userId = localStorage.getItem('userId');
 
-    this.baseUrlTasks = `users/${userId}/tasks`;
+    this.baseUrlTasks = `${environment.baseUrl}users/${userId}/tasks`;
   }
 }

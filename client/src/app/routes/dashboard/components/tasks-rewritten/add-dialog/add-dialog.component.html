@@ -1,0 +1,62 @@
+<div class="title">
+  <div class="title-text">
+    <h1 mat-dialog-title>Add Task</h1>
+  </div>
+</div>
+<div mat-dialog-content class="fields-container">
+  <mat-form-field appearance="fill">
+    <mat-label>Title</mat-label>
+    <input matInput class="title-field-input" [formControl]="title" />
+    <mat-error *ngIf="title?.invalid">
+      {{ getErrorMessage() }}
+    </mat-error>
+  </mat-form-field>
+
+  <mat-checkbox [formControl]="repeated">Options</mat-checkbox>
+
+  <ng-container *ngIf="repeated.value">
+    <mat-form-field appearance="fill">
+      <mat-label>Start date</mat-label>
+      <input
+        matInput
+        [matDatepicker]="picker"
+        [formControl]="startDate"
+        [min]="minDate"
+      />
+      <mat-hint>MM/DD/YYYY</mat-hint>
+      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
+    <mat-form-field appearance="fill">
+      <mat-label>Interval</mat-label>
+      <input
+        matInput
+        class="title-field-input"
+        [formControl]="interval"
+        type="number"
+      />
+      <mat-error *ngIf="interval.invalid"> Interval is required </mat-error>
+    </mat-form-field>
+    <mat-form-field appearance="fill">
+      <mat-label>Iterations</mat-label>
+      <input
+        matInput
+        class="title-field-input"
+        [formControl]="iterations"
+        type="number"
+      />
+      <mat-error *ngIf="interval.invalid"> Iterations is required </mat-error>
+    </mat-form-field>
+  </ng-container>
+</div>
+<div mat-dialog-actions class="actions">
+  <button mat-stroked-button (click)="onNoClick()">Cancel</button>
+  <button
+    [disabled]="title?.invalid || interval.invalid"
+    mat-flat-button
+    color="primary"
+    (click)="onClickSave()"
+  >
+    Save
+  </button>
+</div>

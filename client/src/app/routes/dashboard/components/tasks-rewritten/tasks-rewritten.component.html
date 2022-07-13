@@ -1,0 +1,113 @@
+<mat-tab-group
+  class="tab-group"
+  (selectedIndexChange)="onTabChange($event)"
+  [selectedIndex]="selectedIndex"
+>
+  <mat-tab label="My Tasks" class="tab">
+    <div class="tasks-container" (scroll)="scrollEvent($event)">
+      <div class="tasks-group" *ngIf="tasksService.commonTasks.length !== 0">
+        <div class="tasks-group-date-container">
+          <h4 class="tasks-group-date-text">Common Tasks</h4>
+        </div>
+        <div
+          class="todo-item-container todo-list"
+          cdkDropList
+          (cdkDropListDropped)="drop($event, tasksService.commonTasks)"
+        >
+          <div
+            *ngFor="let task of tasksService.commonTasks"
+            cdkDrag
+            class="todo-box"
+          >
+            <app-todo-item
+              dialogTitle="Edit Task"
+              [title]="task.title"
+              (editItemEvent)="onEditItem(task._id, $event)"
+              (deleteItemEvent)="onDeleteItem(task._id)"
+            >
+              <div leftOfTitle class="status">
+                <mat-checkbox
+                  (change)="onCompleteTask(task._id)"
+                  [checked]="task.status === 'completed'"
+                  [disabled]="task.status === 'completed'"
+                  class="check-box"
+                >
+                </mat-checkbox>
+              </div>
+            </app-todo-item>
+          </div>
+        </div>
+      </div>
+      <div
+        *ngFor="let tasksGroup of tasksService.tasksGroupedByDay"
+        class="tasks-group"
+      >
+        <div class="tasks-group-date-container">
+          <h4 class="tasks-group-date-text">{{ tasksGroup[0] }}</h4>
+        </div>
+
+        <div
+          class="todo-item-container todo-list"
+          cdkDropList
+          (cdkDropListDropped)="drop($event, tasksGroup[1])"
+        >
+          <div *ngFor="let task of tasksGroup[1]" cdkDrag class="todo-box">
+            <app-todo-item
+              dialogTitle="Edit Task"
+              [title]="task.title"
+              (editItemEvent)="onEditItem(task._id, $event)"
+              (deleteItemEvent)="onDeleteItem(task._id)"
+            >
+              <div leftOfTitle class="status">
+                <mat-checkbox
+                  (change)="onCompleteTask(task._id)"
+                  [checked]="task.status === 'completed'"
+                  [disabled]="task.status === 'completed'"
+                  class="check-box"
+                >
+                </mat-checkbox>
+              </div>
+            </app-todo-item>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="button-container">
+      <button mat-stroked-button class="add-task-button" (click)="openDialog()">
+        <mat-icon>add</mat-icon> Add Task
+      </button>
+    </div>
+  </mat-tab>
+  <mat-tab label="Completed Tasks"
+    ><div class="tasks-container">
+      <div
+        *ngFor="let tasksGroup of tasksService.tasksGroupedByDay"
+        class="tasks-group"
+      >
+        <div class="tasks-group-date-container">
+          <h4 class="tasks-group-date-text">{{ tasksGroup[0] }}</h4>
+        </div>
+
+        <div class="todo-item-container">
+          <div *ngFor="let task of tasksGroup[1]">
+            <app-todo-item
+              dialogTitle="Edit Task"
+              [title]="task.title"
+              (editItemEvent)="onEditItem(task._id, $event)"
+              (deleteItemEvent)="onDeleteItem(task._id)"
+            >
+              <div leftOfTitle class="status">
+                <mat-checkbox
+                  [checked]="task.status === 'completed'"
+                  [disabled]="task.status === 'completed'"
+                  class="check-box"
+                >
+                </mat-checkbox>
+              </div>
+            </app-todo-item>
+          </div>
+        </div>
+      </div>
+    </div>
+  </mat-tab>
+</mat-tab-group>

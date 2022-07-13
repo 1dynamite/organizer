@@ -1,3 +1,7 @@
 <div class="root">
-  <app-tasks [baseUrl]="baseUrlTasks"></app-tasks>
+  <!-- <app-tasks [baseUrl]="baseUrlTasks"></app-tasks> -->
+  <app-tasks-rewritten
+    *ngIf="baseUrlTasks"
+    [baseUrl]="baseUrlTasks"
+  ></app-tasks-rewritten>
 </div>

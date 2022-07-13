@@ -11,6 +11,7 @@ import { UpdateDialogComponent } from 'src/app/components/dialogs/update-dialog/
 })
 export class TodoItemComponent implements OnInit {
   @Input() title = '';
+  @Input() dialogTitle = '';
 
   @Output() editItemEvent = new EventEmitter<any>();
   @Output() deleteItemEvent = new EventEmitter<void>();
@@ -23,7 +24,7 @@ export class TodoItemComponent implements OnInit {
     event.stopPropagation();
 
     const dialogRef = this.dialog.open(UpdateDialogComponent, {
-      data: { title: this.title },
+      data: { title: this.title, dialogTitle: this.dialogTitle },
     });
 
     dialogRef.afterClosed().subscribe((result: any) => {
