@@ -21,7 +21,7 @@ router.use("/:userId", isSignedIn, isAuthorized);
 router
   .route("/:userId")
   .get(controller.getUser)
-  .patch(validateUpdateUser, controller.updateUser)
+  .patch(controller.updateUser)
   .delete(controller.deleteUser);
 
 router.use("/:userId/tasks", tasksRoutes);

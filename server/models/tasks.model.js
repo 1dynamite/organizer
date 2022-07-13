@@ -26,6 +26,13 @@ const TaskSchema = new mongoose.Schema(
       type: mongoose.Types.ObjectId,
       required: [true, "User ID is required"],
     },
+
+    startDate: {
+      type: Date,
+      default: Date.now,
+    },
+
+    repeated: Boolean,
   },
   {
     timestamps: true,
