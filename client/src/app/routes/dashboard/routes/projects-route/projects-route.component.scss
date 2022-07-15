@@ -1,0 +1,11 @@
+@use "@angular/material" as mat;
+@use "/src/theme.constants.scss" as theme;
+
+.root {
+  width: 100%;
+  height: 100%;
+  background-color: theme.$light-bg-color;
+  display: flex;
+
+  padding: 2rem 3rem;
+}

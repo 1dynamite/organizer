@@ -1,8 +1,8 @@
 const Projects = require("../models/projects.model");
 const _myCounter = require("../services/_counter.service");
 
-function getManyProjects(sort) {
-  return Projects.find({}).sort(sort);
+function getManyProjects(filter, sort) {
+  return Projects.find(filter).sort(sort);
 }
 
 function getProject(projectId) {

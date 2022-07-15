@@ -1,9 +1,13 @@
 const Tasks = require("../models/tasks.model");
 const projectsService = require("../services/projects.service");
 const _myCounter = require("../services/_counter.service");
+const { tasksPerPage } = require("../constants");
 
-function getTasks(filter, sort) {
-  return Tasks.find(filter).sort(sort);
+function getTasks(filter, sort, pageNumber) {
+  return Tasks.find(filter)
+    .sort(sort)
+    .skip(pageNumber > 0 ? (pageNumber - 1) * tasksPerPage : 0)
+    .limit(tasksPerPage);
 }
 
 async function createTask(body) {

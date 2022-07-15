@@ -1,0 +1,69 @@
+@use "@angular/material" as mat;
+@use "/src/theme.constants.scss" as theme;
+
+.root {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  background-color: theme.$light-bg-color;
+  height: 100%;
+  background-image: url("/assets/auth-page.png");
+
+  background-size: cover;
+  background-position: 0% 75%;
+}
+
+.blur-bg {
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  background-color: rgba($color: #000000, $alpha: 0.2);
+}
+
+.panel {
+  margin-top: 3rem;
+  border-radius: theme.$border-radius;
+  box-shadow: theme.$box-shadow-1;
+  background-color: rgba($color: white, $alpha: 0.97);
+  padding: 1rem 3rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  z-index: 1;
+}
+
+.nav-container {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: #eee;
+}
+
+.sidenav {
+  padding: 1rem 0.7rem;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+a:hover {
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.sidenav-title {
+  text-align: center;
+}
+
+.link {
+  text-decoration: none;
+  color: inherit;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}

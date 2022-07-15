@@ -1,8 +1,9 @@
 const express = require("express");
 const controller = require("../controllers/projects.controller");
 const validators = require("../validators/projects.validator");
+const tasksRoutes = require("./tasks.routes");
 
-const router = express.Router();
+const router = express.Router({ mergeParams: true });
 
 router.get("/", controller.getManyProjects);
 router.get("/:projectId", controller.getProject);
@@ -16,5 +17,7 @@ router.patch(
 );
 
 router.delete("/:projectId", controller.deleteProject);
+
+router.use("/:projectId/tasks", tasksRoutes);
 
 module.exports = router;

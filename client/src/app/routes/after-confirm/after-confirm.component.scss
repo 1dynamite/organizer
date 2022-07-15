@@ -1,0 +1,32 @@
+@use "@angular/material" as mat;
+@use "/src/theme.constants.scss" as theme;
+
+.root {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding-top: 3rem;
+  background-image: url("/assets/auth-page.png");
+  background-size: cover;
+  background-position: 0% 75%;
+  height: 100%;
+}
+
+.blur-bg {
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  background-color: rgba($color: #000000, $alpha: 0.2);
+}
+
+.panel {
+  border-radius: theme.$border-radius;
+  box-shadow: theme.$box-shadow-1;
+  background-color: rgba($color: white, $alpha: 0.97);
+  background-color: white;
+  padding: 1rem 3rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  z-index: 1;
+}

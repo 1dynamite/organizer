@@ -1,0 +1,49 @@
+<mat-sidenav-container class="nav-container">
+  <mat-sidenav mode="side" opened class="sidenav">
+    <mat-list>
+      <mat-list-item>
+        <h2>My organizer</h2>
+      </mat-list-item>
+      <mat-list-item>
+        <mat-icon matListIcon>person_add</mat-icon>
+        <a routerLink="/sign-up" class="link" matLine>Sign up</a>
+      </mat-list-item>
+    </mat-list>
+  </mat-sidenav>
+  <mat-sidenav-content>
+    <div class="root">
+      <div class="blur-bg"></div>
+      <div class="sign-in-panel">
+        <div class="title">
+          <h1>Sign in</h1>
+        </div>
+        <form [formGroup]="signInForm" (ngSubmit)="onSubmit()" class="form">
+          <mat-form-field appearance="fill">
+            <mat-label>Email</mat-label>
+            <input type="email" matInput formControlName="email" />
+            <mat-error *ngIf="signInForm.get('email')?.invalid">
+              {{ getErrorMessage("email") }}
+            </mat-error>
+          </mat-form-field>
+          <mat-form-field appearance="fill">
+            <mat-label>Password</mat-label>
+            <input type="password" matInput formControlName="password" />
+            <mat-error *ngIf="signInForm.get('password')?.invalid">
+              {{ getErrorMessage("password") }}
+            </mat-error>
+          </mat-form-field>
+          <button
+            mat-flat-button
+            color="primary"
+            [disabled]="!signInForm.valid"
+          >
+            SUBMIT
+          </button>
+          <mat-error *ngIf="serverErrorMessage" class="server-error"
+            ><mat-icon>error</mat-icon>{{ serverErrorMessage }}</mat-error
+          >
+        </form>
+      </div>
+    </div>
+  </mat-sidenav-content>
+</mat-sidenav-container>

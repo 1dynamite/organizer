@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -14,26 +14,47 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatListModule } from '@angular/material/list';
 import { UpdateDialogComponent } from './components/dialogs/update-dialog/update-dialog.component';
 import { DeleteDialogComponent } from './components/dialogs/delete-dialog/delete-dialog.component';
-import { TodoModule } from './components/todo/todo.module';
-import { TasksComponent } from './components/tasks/tasks.component';
+import { TodoModule } from './routes/dashboard/components/todo/todo.module';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
-import { ProjectsModule } from './components/projects/projects.module';
+import { ProjectsModule } from './routes/dashboard/components/projects/projects.module';
 import { MatChipsModule } from '@angular/material/chips';
-import { ProjectTitleChipComponent } from './components/tasks/components/project-title-chip/project-title-chip.component';
-import { MatTreeModule } from '@angular/material/tree';
 import { MatTabsModule } from '@angular/material/tabs';
+import { AppInterceptor } from './app.interceptor';
+import { TasksRouteComponent } from './routes/dashboard/routes/tasks-route/tasks-route.component';
+import { ProjectsRouteComponent } from './routes/dashboard/routes/projects-route/projects-route.component';
+import { ProjectItemRouteComponent } from './routes/dashboard/routes/project-item-route/project-item-route.component';
+import { ConfirmEmailComponent } from './routes/confirm-email/confirm-email.component';
+import { AfterConfirmComponent } from './routes/after-confirm/after-confirm.component';
+import { DashboardComponent } from './routes/dashboard/dashboard.component';
+import { SignInComponent } from './routes/sign-in/sign-in.component';
+import { SignUpComponent } from './routes/sign-up/sign-up.component';
+import { TasksComponent } from './routes/dashboard/components/tasks/tasks.component';
+import { AddDialogComponent } from './routes/dashboard/components/tasks/add-dialog/add-dialog.component';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
+
 @NgModule({
   declarations: [
+    SignUpComponent,
+    SignInComponent,
     AppComponent,
     SnackbarComponent,
     UpdateDialogComponent,
     DeleteDialogComponent,
+    TasksRouteComponent,
+    ProjectsRouteComponent,
+    ProjectItemRouteComponent,
+    ConfirmEmailComponent,
+    AfterConfirmComponent,
+    DashboardComponent,
     TasksComponent,
-    ProjectTitleChipComponent,
+    AddDialogComponent,
   ],
   imports: [
+    MatNativeDateModule,
+    MatDatepickerModule,
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
@@ -47,14 +68,15 @@ import { MatTabsModule } from '@angular/material/tabs';
     MatListModule,
     MatChipsModule,
     TodoModule,
-    MatTreeModule,
     MatCheckboxModule,
     DragDropModule,
     MatProgressBarModule,
     MatTabsModule,
     ProjectsModule,
   ],
-  providers: [],
+  providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: AppInterceptor, multi: true },
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
