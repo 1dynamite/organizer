@@ -1,4 +1,4 @@
-import { TasksRewrittenService } from './services/tasks-rewritten.service';
+import { TasksService } from './services/tasks.service';
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
@@ -10,11 +10,11 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { CdkDragDrop } from '@angular/cdk/drag-drop';
 
 @Component({
-  selector: 'app-tasks-rewritten',
-  templateUrl: './tasks-rewritten.component.html',
-  styleUrls: ['./tasks-rewritten.component.scss'],
+  selector: 'app-tasks',
+  templateUrl: './tasks.component.html',
+  styleUrls: ['./tasks.component.scss'],
 })
-export class TasksRewrittenComponent implements OnInit {
+export class TasksComponent implements OnInit {
   selectedIndex = 0;
   @Input() baseUrl = '';
   pageNumber = 1;
@@ -24,7 +24,7 @@ export class TasksRewrittenComponent implements OnInit {
 
   constructor(
     public dialog: MatDialog,
-    public tasksService: TasksRewrittenService,
+    public tasksService: TasksService,
     private router: Router,
     private activatedRoute: ActivatedRoute,
     public alertService: AlertService

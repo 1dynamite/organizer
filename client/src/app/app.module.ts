@@ -30,8 +30,8 @@ import { AfterConfirmComponent } from './routes/after-confirm/after-confirm.comp
 import { DashboardComponent } from './routes/dashboard/dashboard.component';
 import { SignInComponent } from './routes/sign-in/sign-in.component';
 import { SignUpComponent } from './routes/sign-up/sign-up.component';
-import { TasksRewrittenComponent } from './routes/dashboard/components/tasks-rewritten/tasks-rewritten.component';
-import { AddDialogComponent } from './routes/dashboard/components/tasks-rewritten/add-dialog/add-dialog.component';
+import { TasksComponent } from './routes/dashboard/components/tasks/tasks.component';
+import { AddDialogComponent } from './routes/dashboard/components/tasks/add-dialog/add-dialog.component';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 
@@ -49,7 +49,7 @@ import { MatNativeDateModule } from '@angular/material/core';
     ConfirmEmailComponent,
     AfterConfirmComponent,
     DashboardComponent,
-    TasksRewrittenComponent,
+    TasksComponent,
     AddDialogComponent,
   ],
   imports: [

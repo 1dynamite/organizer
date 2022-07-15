@@ -7,7 +7,7 @@ import { BehaviorSubject, forkJoin, Observable, Subscription, tap } from 'rxjs';
 @Injectable({
   providedIn: 'root',
 })
-export class TasksRewrittenService {
+export class TasksService {
   tasksAll: BehaviorSubject<any> = new BehaviorSubject([]);
   tasksGroupedByDay: any = [];
   commonTasks: any = [];
