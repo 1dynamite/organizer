@@ -1,3 +1,4 @@
+require("dotenv").config();
 const express = require("express");
 const path = require("path");
 const cors = require("cors");
@@ -5,6 +6,7 @@ const handleError = require("./helpers/handleError");
 const usersRoutes = require("./routes/users.routes");
 const signInController = require("./controllers/signin.controller");
 const usersController = require("./controllers/users.controller");
+const fs = require("fs");
 
 const app = express();
 

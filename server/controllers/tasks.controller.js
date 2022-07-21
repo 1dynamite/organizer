@@ -1,5 +1,6 @@
 const createError = require("http-errors");
 const tasksService = require("../services/tasks.service");
+const fs = require("fs");
 
 const getTasks = async (req, res, next) => {
   try {
@@ -26,7 +27,7 @@ const createTask = async (req, res, next) => {
   try {
     const startDate = new Date(req.body.startDate);
 
-    if (req.body.repeated) {
+    if (!req.body.repeated) {
       const task = await tasksService.createTask({
         ...req.params,
         title: req.body.title,

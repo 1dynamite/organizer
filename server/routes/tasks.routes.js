@@ -6,7 +6,7 @@ const router = express.Router({ mergeParams: true });
 
 router.get("/", controller.getTasks);
 
-router.post("/", validators.validateTask, controller.createTask);
+router.post("/", controller.createTask);
 
 router.patch("/:taskId", validators.validateTask, controller.updateTask);
 
