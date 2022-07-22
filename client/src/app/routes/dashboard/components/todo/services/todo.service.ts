@@ -57,7 +57,7 @@ export class TodoService {
     return myArray;
   }
 
-  completeItem(_id: string, myData: any) {
+  completeItem(_id: string) {
     const cb = () => {
       const newValue = this.items.filter((element) => element._id !== _id);
 

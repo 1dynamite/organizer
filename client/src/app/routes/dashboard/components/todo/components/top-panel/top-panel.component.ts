@@ -1,5 +1,4 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-top-panel',
@@ -9,7 +8,7 @@ import { MatDialog } from '@angular/material/dialog';
 export class TopPanelComponent implements OnInit {
   @Input() title: string = '';
 
-  constructor(public dialog: MatDialog) {}
+  constructor() {}
 
   ngOnInit(): void {}
 }

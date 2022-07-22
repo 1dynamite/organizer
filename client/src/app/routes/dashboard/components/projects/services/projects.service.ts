@@ -13,11 +13,7 @@ export class ProjectsService {
     'userId'
   )}/projects/`;
 
-  constructor(
-    public todoService: TodoService,
-    private httpClient: HttpClient,
-    private router: Router
-  ) {
+  constructor(public todoService: TodoService, private httpClient: HttpClient) {
     this.todoService.items = [];
     this.httpClient.get<any>(this.projectsUrl).subscribe((res) => {
       this.todoService.items = res;

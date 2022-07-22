@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { MatDialog } from '@angular/material/dialog';
 
 import { TopPanelComponent } from './top-panel.component';
 
@@ -8,9 +9,8 @@ describe('TopPanelComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ TopPanelComponent ]
-    })
-    .compileComponents();
+      declarations: [TopPanelComponent],
+    }).compileComponents();
   });
 
   beforeEach(() => {

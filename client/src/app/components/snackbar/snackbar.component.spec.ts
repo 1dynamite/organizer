@@ -10,8 +10,11 @@ import { SnackbarComponent } from './snackbar.component';
 describe('SnackbarComponent', () => {
   let component: SnackbarComponent;
   let fixture: ComponentFixture<SnackbarComponent>;
+  let snackbarSpy: jasmine.SpyObj<MatSnackBarRef<SnackbarComponent>>;
 
   beforeEach(async () => {
+    const spy = jasmine.createSpyObj('MatSnackBarRef', ['dismiss']);
+
     await TestBed.configureTestingModule({
       declarations: [SnackbarComponent],
       imports: [MatIconModule],
@@ -20,9 +23,13 @@ describe('SnackbarComponent', () => {
           provide: MAT_SNACK_BAR_DATA,
           useValue: { message: 'Task successfully created!' },
         },
-        { provide: MatSnackBarRef, useValue: { dismiss: () => {} } },
+        { provide: MatSnackBarRef, useValue: spy },
       ],
     }).compileComponents();
+
+    snackbarSpy = TestBed.inject(MatSnackBarRef) as jasmine.SpyObj<
+      MatSnackBarRef<SnackbarComponent>
+    >;
   });
 
   beforeEach(() => {
@@ -39,5 +46,11 @@ describe('SnackbarComponent', () => {
     const snackbarElement: HTMLElement = fixture.nativeElement;
     const p = snackbarElement.querySelector('p')!;
     expect(p.textContent).toEqual('Task successfully created!');
+  });
+
+  it('should dismiss', () => {
+    component.dismiss();
+
+    expect(snackbarSpy.dismiss).toHaveBeenCalledOnceWith();
   });
 });

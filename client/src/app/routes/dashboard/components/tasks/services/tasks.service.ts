@@ -26,7 +26,7 @@ export class TasksService {
 
     params.append('page', pageNumber.toString());
 
-    this.httpClient
+    return this.httpClient
       .get<any>(`${myBaseUrl}?${params.toString()}`)
       .subscribe((res) => {
         if (params.get('status') === 'completed') this.tasksAll.next(res);
