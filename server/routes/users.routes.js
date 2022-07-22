@@ -5,6 +5,7 @@ const tasksRoutes = require("./tasks.routes");
 const projectsRoutes = require("./projects.routes");
 const isSignedIn = require("../auth/is-signed-in");
 const isAuthorized = require("../auth/is-authorized");
+const fs = require("fs");
 
 const router = express.Router();
 
@@ -21,10 +22,11 @@ router.use("/:userId", isSignedIn, isAuthorized);
 router
   .route("/:userId")
   .get(controller.getUser)
-  .patch(controller.updateUser)
+  .patch(validators.validateUpdateUser, controller.updateUser)
   .delete(controller.deleteUser);
 
 router.use("/:userId/tasks", tasksRoutes);
+
 router.use("/:userId/projects", projectsRoutes);
 
 module.exports = router;
