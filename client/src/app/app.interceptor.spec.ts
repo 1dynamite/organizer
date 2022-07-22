@@ -16,9 +16,9 @@ describe('AppInterceptor', () => {
 
   it('should intercept', () => {
     const interceptor: AppInterceptor = TestBed.inject(AppInterceptor);
-    const spy = spyOn(localStorage, 'getItem');
+    const localStorageGetItempy = spyOn(localStorage, 'getItem');
 
-    spy.and.returnValue('someValue');
+    localStorageGetItempy.and.returnValue('someValue');
 
     const request = {
       clone: jasmine.createSpy('clone').and.returnValue('cloneReturnValue'),
@@ -32,7 +32,7 @@ describe('AppInterceptor', () => {
     });
     expect(next.handle).toHaveBeenCalledOnceWith('cloneReturnValue');
 
-    spy.and.returnValue(null);
+    localStorageGetItempy.and.returnValue(null);
     interceptor.intercept(request as any, next as any);
     expect(next.handle).toHaveBeenCalledWith(request);
   });

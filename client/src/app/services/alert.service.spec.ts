@@ -8,10 +8,14 @@ describe('AlertService', () => {
   let matSnackBarSpy: jasmine.SpyObj<MatSnackBar>;
 
   beforeEach(() => {
-    const spy = jasmine.createSpyObj('MatSnackBar', ['openFromComponent']);
+    const SnackbarOpenFromComponentSpy = jasmine.createSpyObj('MatSnackBar', [
+      'openFromComponent',
+    ]);
 
     TestBed.configureTestingModule({
-      providers: [{ provide: MatSnackBar, useValue: spy }],
+      providers: [
+        { provide: MatSnackBar, useValue: SnackbarOpenFromComponentSpy },
+      ],
     });
 
     service = TestBed.inject(AlertService);

@@ -12,11 +12,11 @@ describe('TodoItemComponent', () => {
   let dialogSpy: jasmine.SpyObj<MatDialog>;
 
   beforeEach(async () => {
-    let spy = jasmine.createSpyObj('MatDialog', ['open']);
+    let MatDialogOpenspy = jasmine.createSpyObj('MatDialog', ['open']);
 
     await TestBed.configureTestingModule({
       declarations: [TodoItemComponent],
-      providers: [{ provide: MatDialog, useValue: spy }],
+      providers: [{ provide: MatDialog, useValue: MatDialogOpenspy }],
     }).compileComponents();
 
     dialogSpy = TestBed.inject(MatDialog) as jasmine.SpyObj<MatDialog>;

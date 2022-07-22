@@ -52,14 +52,14 @@ describe('TasksComponent', () => {
   let activatedRouteSpy: any;
 
   beforeEach(async () => {
-    let spy = jasmine.createSpyObj('MatDialog', ['open']);
+    let MatDialogOpenSpy = jasmine.createSpyObj('MatDialog', ['open']);
 
     let spyRouter = jasmine.createSpyObj('Router', ['navigate']);
 
     await TestBed.configureTestingModule({
       declarations: [TasksComponent],
       providers: [
-        { provide: MatDialog, useValue: spy },
+        { provide: MatDialog, useValue: MatDialogOpenSpy },
         { provide: TasksService, useValue: tsmock },
         { provide: Router, useValue: spyRouter },
         {

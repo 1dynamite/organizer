@@ -9,10 +9,10 @@ describe('AddDialogComponent', () => {
   let dialogRefSpy: jasmine.SpyObj<MatDialogRef<AddDialogComponent>>;
 
   beforeEach(async () => {
-    const spy = jasmine.createSpyObj('MatDialogRef', ['close']);
+    const DialoRefCloseSpy = jasmine.createSpyObj('MatDialogRef', ['close']);
     await TestBed.configureTestingModule({
       declarations: [AddDialogComponent],
-      providers: [{ provide: MatDialogRef, useValue: spy }],
+      providers: [{ provide: MatDialogRef, useValue: DialoRefCloseSpy }],
     }).compileComponents();
 
     dialogRefSpy = TestBed.inject(MatDialogRef) as jasmine.SpyObj<

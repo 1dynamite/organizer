@@ -8,10 +8,10 @@ describe('AppGuard', () => {
   let routeSpy: jasmine.SpyObj<Router>;
 
   beforeEach(() => {
-    const spy = jasmine.createSpyObj('Router', ['createUrlTree']);
+    const useValueRouterSpy = jasmine.createSpyObj('Router', ['createUrlTree']);
 
     TestBed.configureTestingModule({
-      providers: [{ provide: Router, useValue: spy }],
+      providers: [{ provide: Router, useValue: useValueRouterSpy }],
     });
     guard = TestBed.inject(AppGuard);
     routeSpy = TestBed.inject(Router) as jasmine.SpyObj<Router>;
@@ -23,15 +23,15 @@ describe('AppGuard', () => {
 
   it('should guard', () => {
     routeSpy.createUrlTree.and.returnValue(false as any);
-    const spy = spyOn(localStorage, 'getItem');
+    const localStorageGetItemspy = spyOn(localStorage, 'getItem');
 
-    spy.and.returnValue('someValue');
+    localStorageGetItemspy.and.returnValue('someValue');
 
     let valid = guard.canActivate(null as any, null as any);
 
     expect(valid).toBe(true);
 
-    spy.and.returnValue(null);
+    localStorageGetItemspy.and.returnValue(null);
     valid = guard.canActivate(null as any, null as any);
     expect(valid).toBe(false);
     expect(routeSpy.createUrlTree).toHaveBeenCalledOnceWith(['sign-in']);
